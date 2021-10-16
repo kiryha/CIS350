@@ -1,0 +1,227 @@
+Program started...
+Input file: E:\projects\master\CS350\dev\program_1/data/input/statements2.dat
+The content of the file read successfully!
+
+
+Input Line: # ( ( ( A + B ) ) ) ) ) #
+Invalid Statement:  <Mismatched parenthesis>
+
+
+Input Line: # ( A + B * C ) / ( ( A - B ) * C ) #
+Valid Statement
+Expression tree:
+/
++*
+A*-C
+BCAB
+Prefix notation: /+A*BC*-ABC
+Infix notation: A+B*C/A-B*C
+Postfix notation: ABC*+AB-C*/
+Operations:
+BC*
+ABC*+
+AB-
+AB-C*
+ABC*+AB-C*/
+Final result: -3
+
+
+Input Line: # X * Y + A #
+Valid Statement
+Expression tree:
++
+*A
+XY
+Prefix notation: +*XYA
+Infix notation: X*Y+A
+Postfix notation: XY*A+
+Operations:
+XY*
+XY*A+
+Final result: 601
+
+
+Input Line: # ( A + B ) / C + (D - E ) * F * ( G - H ) #
+Invalid Statement:  <Unsupported symbol>
+
+
+Input Line: # A + B / ( ( C + D ) * A - G ) #
+Valid Statement
+Expression tree:
++
+A/
+B-
+*G
++A
+CD
+Prefix notation: +A/B-*+CDAG
+Infix notation: A+B/C+D*A-G
+Postfix notation: ABCD+A*G-/+
+Operations:
+CD+
+CD+A*
+CD+A*G-
+BCD+A*G-/
+ABCD+A*G-/+
+Final result: Zero division ERROR!
+
+
+Input Line: # A + b - ) D / E ( F + 4 ) #
+Invalid Statement:  <Unsupported symbol> <Mismatched parenthesis> <Wrong operations>
+
+
+Input Line: # 4 + 5 #
+Valid Statement
+Expression tree:
++
+45
+Prefix notation: +45
+Infix notation: 4+5
+Postfix notation: 45+
+Operations:
+45+
+Final result: 9
+
+
+Input Line: # ( D - 3 ) * ; #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # 4 & 5 #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # A#B #
+Invalid Statement:  <Unsupported symbol>
+
+
+Input Line: # 5 / 0 #
+Valid Statement
+Expression tree:
+/
+50
+Prefix notation: /50
+Infix notation: 5/0
+Postfix notation: 50/
+Operations:
+50/
+Final result: Zero division ERROR!
+
+
+Input Line: # ( A ) + ( B ) #
+Valid Statement
+Expression tree:
++
+AB
+Prefix notation: +AB
+Infix notation: A+B
+Postfix notation: AB+
+Operations:
+AB+
+Final result: 3
+
+
+Input Line: # A B - C #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # ( A + ) B #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # A + ( F - ) D #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # Cis200isfun-4 #
+Invalid Statement:  <Unsupported symbol>
+
+
+Input Line: # ( D - r ) A * C #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # A + C / ( F - E - 1 ) #
+Valid Statement
+Expression tree:
++
+A/
+C-
+-1
+FE
+Prefix notation: +A/C--FE1
+Infix notation: A+C/F-E-1
+Postfix notation: ACFE-1-/+
+Operations:
+FE-
+FE-1-
+CFE-1-/
+ACFE-1-/+
+Final result: Zero division ERROR!
+
+
+Input Line: # ( ( A + B ) * C - D ) * ( E * ( F - G ) + H ) #
+Valid Statement
+Expression tree:
+*
+-+
+*D*H
++CE-
+ABFG
+Prefix notation: *-*+ABCD+*E-FGH
+Infix notation: A+B*C-D*E*F-G+H
+Postfix notation: AB+C*D-EFG-*H+*
+Operations:
+AB+
+AB+C*
+AB+C*D-
+FG-
+EFG-*
+EFG-*H+
+AB+C*D-EFG-*H+*
+Final result: 15
+
+
+Input Line: # ( A - ( B * C ) / D ) + ( E * ( F * G ) ) #
+Valid Statement
+Expression tree:
++
+-*
+A/E*
+*DFG
+BC
+Prefix notation: +-A/*BCD*E*FG
+Infix notation: A-B*C/D+E*F*G
+Postfix notation: ABC*D/-EFG**+
+Operations:
+BC*
+BC*D/
+ABC*D/-
+FG*
+EFG**
+ABC*D/-EFG**+
+Final result: 210
+
+
+Input Line: # ( 1 - ( Y + N ) / 5 ) + 3 * Y #
+Valid Statement
+Expression tree:
++
+-*
+1/3Y
++5
+YN
+Prefix notation: +-1/+YN5*3Y
+Infix notation: 1-Y+N/5+3*Y
+Postfix notation: 1YN+5/-3Y*+
+Operations:
+YN+
+YN+5/
+1YN+5/-
+3Y*
+1YN+5/-3Y*+
+Final result: 69
+
+
+Expressions processing saved to: E:\projects\master\CS350\dev\program_1/data/output/output2.dat
+Program complete!

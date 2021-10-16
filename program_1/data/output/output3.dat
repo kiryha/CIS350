@@ -1,0 +1,329 @@
+Program started...
+Input file: E:\projects\master\CS350\dev\program_1/data/input/statements3.dat
+The content of the file read successfully!
+
+
+Input Line: # 2 ^ 2 #
+Valid Statement
+Expression tree:
+^
+22
+Prefix notation: ^22
+Infix notation: 2^2
+Postfix notation: 22^
+Operations:
+22^
+Final result: 4
+
+
+Input Line: # C + I + S + 3 + 5 + 0 #
+Valid Statement
+Expression tree:
++
++0
++5
++3
++S
+CI
+Prefix notation: +++++CIS350
+Infix notation: C+I+S+3+5+0
+Postfix notation: CI+S+3+5+0+
+Operations:
+CI+
+CI+S+
+CI+S+3+
+CI+S+3+5+
+CI+S+3+5+0+
+Final result: 39
+
+
+Input Line: # A B #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # ( A + B ) * ( C - D ) #
+Valid Statement
+Expression tree:
+*
++-
+ABCD
+Prefix notation: *+AB-CD
+Infix notation: A+B*C-D
+Postfix notation: AB+CD-*
+Operations:
+AB+
+CD-
+AB+CD-*
+Final result: -3
+
+
+Input Line: # ( A - B ) * #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # 2 + X #
+Valid Statement
+Expression tree:
++
+2X
+Prefix notation: +2X
+Infix notation: 2+X
+Postfix notation: 2X+
+Operations:
+2X+
+Final result: 26
+
+
+Input Line: # C ^ B #
+Valid Statement
+Expression tree:
+^
+CB
+Prefix notation: ^CB
+Infix notation: C^B
+Postfix notation: CB^
+Operations:
+CB^
+Final result: 9
+
+
+Input Line: # C + - B #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # ( A + X ) / ( B - A - A ) #
+Valid Statement
+Expression tree:
+/
++-
+AX-A
+BA
+Prefix notation: /+AX--BAA
+Infix notation: A+X/B-A-A
+Postfix notation: AX+BA-A-/
+Operations:
+AX+
+BA-
+BA-A-
+AX+BA-A-/
+Final result: Zero division ERROR!
+
+
+Input Line: # ( F - D ) ^ ( A - A ) #
+Valid Statement
+Expression tree:
+^
+--
+FDAA
+Prefix notation: ^-FD-AA
+Infix notation: F-D^A-A
+Postfix notation: FD-AA-^
+Operations:
+FD-
+AA-
+FD-AA-^
+Final result: 1
+
+
+Input Line: # A * B * C * D * E * F * G * H #
+Valid Statement
+Expression tree:
+*
+*H
+*G
+*F
+*E
+*D
+*C
+AB
+Prefix notation: *******ABCDEFGH
+Infix notation: A*B*C*D*E*F*G*H
+Postfix notation: AB*C*D*E*F*G*H*
+Operations:
+AB*
+AB*C*
+AB*C*D*
+AB*C*D*E*
+AB*C*D*E*F*
+AB*C*D*E*F*G*
+AB*C*D*E*F*G*H*
+Final result: 40320
+
+
+Input Line: # 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 #
+Valid Statement
+Expression tree:
+*
+*8
+*7
+*6
+*5
+*4
+*3
+12
+Prefix notation: *******12345678
+Infix notation: 1*2*3*4*5*6*7*8
+Postfix notation: 12*3*4*5*6*7*8*
+Operations:
+12*
+12*3*
+12*3*4*
+12*3*4*5*
+12*3*4*5*6*
+12*3*4*5*6*7*
+12*3*4*5*6*7*8*
+Final result: 40320
+
+
+Input Line: # B ^ Y / ( 5 * Z ) + C #
+Valid Statement
+Expression tree:
++
+/C
+^*
+BY5Z
+Prefix notation: +/^BY*5ZC
+Infix notation: B^Y/5*Z+C
+Postfix notation: BY^5Z*/C+
+Operations:
+BY^
+5Z*
+BY^5Z*/
+BY^5Z*/C+
+Final result: 258114
+
+
+Input Line: # K + L - N * M + ( O ^ P ) * W / U / V * T + Q #
+Valid Statement
+Expression tree:
++
++Q
+-*
++*/T
+KLNM/V
+*U
+^W
+OP
+Prefix notation: ++-+KL*NM*//*^OPWUVTQ
+Infix notation: K+L-N*M+O^P*W/U/V*T+Q
+Postfix notation: KL+NM*-OP^W*U/V/T*+Q+
+Operations:
+KL+
+NM*
+KL+NM*-
+OP^
+OP^W*
+OP^W*U/
+OP^W*U/V/
+OP^W*U/V/T*
+KL+NM*-OP^W*U/V/T*+
+KL+NM*-OP^W*U/V/T*+Q+
+Final result: 6539973687506341158
+
+
+Input Line: # A + B * C - D / E ^ F #
+Valid Statement
+Expression tree:
+-
++/
+A*D^
+BCEF
+Prefix notation: -+A*BC/D^EF
+Infix notation: A+B*C-D/E^F
+Postfix notation: ABC*+DEF^/-
+Operations:
+BC*
+ABC*+
+EF^
+DEF^/
+ABC*+DEF^/-
+Final result: 7
+
+
+Input Line: ##
+Invalid Statement:  <Wrong spaces distribution>
+
+
+Input Line: # ( A + ) B #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # ( A + B ) C #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # C B #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # ( C + - B #
+Invalid Statement:  <Mismatched parenthesis> <Wrong operations>
+
+
+Input Line: #  1 + 24 #
+Invalid Statement:  <Unsupported symbol> <Wrong spaces distribution>
+
+
+Input Line: # * 1 + 2 #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # 1 + 2 * #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # 1 + 23 * #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # 1 + AE #
+Invalid Statement:  <Unsupported symbol>
+
+
+Input Line: # ( A + ) B #
+Invalid Statement:  <Wrong operations>
+
+
+Input Line: # ( A + ) b #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # AB * C #
+Invalid Statement:  <Unsupported symbol>
+
+
+Input Line: #A + B #
+Invalid Statement:  <Wrong spaces distribution>
+
+
+Input Line: # A +B #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # 3 ++B #
+Invalid Statement:  <Unsupported symbol> <Wrong operations>
+
+
+Input Line: # A  + B #
+Invalid Statement:  <Wrong spaces distribution>
+
+
+Input Line: # 2 ^ ( F - E + 1 ) #
+Valid Statement
+Expression tree:
+^
+2+
+-1
+FE
+Prefix notation: ^2+-FE1
+Infix notation: 2^F-E+1
+Postfix notation: 2FE-1+^
+Operations:
+FE-
+FE-1+
+2FE-1+^
+Final result: 4
+
+
+Expressions processing saved to: E:\projects\master\CS350\dev\program_1/data/output/output3.dat
+Program complete!
