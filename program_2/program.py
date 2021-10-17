@@ -65,7 +65,7 @@ class BinarySearchTree:
                     else:
                         current_node = current_node.right
 
-    def lookup(self, data):
+    def search(self, data):
 
         if not self.root:
             return
@@ -82,22 +82,78 @@ class BinarySearchTree:
 
         return
 
+    def delete(self, data):
+
+        if not self.root:
+            return
+
+        current_node = self.root
+        parent_node = None
+
+        while current_node:
+            if data < current_node.data:  # Data in left node
+                parent_node = current_node
+                current_node = current_node.left
+            elif data > current_node.data:  # Data in right node
+                parent_node = current_node
+                current_node = current_node.right
+            elif data == current_node.data:  # Data found in current node
+                if current_node.right is None:  # Option 1: No right child
+                    if parent_node is None:
+                        self.root = current_node.left
+                    else:
+                        if current_node.data < parent_node.data:
+                            parent_node.left = current_node.left
+                        elif current_node.data > parent_node.data:
+                            parent_node.right = current_node.left
+                elif current_node.right.left is None:  # Option 2: right child which does not have left child
+                    if parent_node is None:
+                        self.root = current_node.left
+                    else:
+                        current_node.right.left = current_node.left
+
+                        if current_node.data < parent_node.data:
+                            parent_node.left = current_node.right
+                        elif current_node.data > parent_node.data:
+                            parent_node.right = current_node.right
+                else:  # Option 3: Right child that has left child
+                    left_most_child = current_node.right.left
+                    left_most_parent = current_node.right
+
+                    while left_most_child is not None:
+                        left_most_parent = left_most_child
+                        left_most_child = left_most_child.left
+
+                    left_most_parent.left = left_most_child.right
+                    left_most_child.left = current_node.left
+                    left_most_child.right = current_node.right
+
+                    if parent_node is None:
+                        self.root = left_most_child
+                    else:
+                        if current_node.data < parent_node.data:
+                            parent_node.left = left_most_child
+                        elif current_node.data > parent_node.data:
+                            parent_node.left = left_most_child
+
+                return True
+
     # Service
     def get_node_height(self, node):
 
         if node is None:
             return 0
 
-        leftAns = self.get_node_height(node.left)
-        rightAns = self.get_node_height(node.right)
+        left_children = self.get_node_height(node.left)
+        right_children = self.get_node_height(node.right)
 
-        return max(leftAns, rightAns) + 1
+        return max(left_children, right_children) + 1
 
     def get_tree_height(self):
 
         return self.get_node_height(self.root) - 1
 
-    def count_levels(self):
+    def get_levels(self):
 
         return int(math.floor(math.log(self.nodes_count, 2) + 1))
 
@@ -162,7 +218,7 @@ class BinarySearchTree:
 
 def main():
 
-    test_case_number = '4'
+    test_case_number = '3'
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
 
@@ -189,7 +245,9 @@ def main():
             tree.insert(number)
 
     tree.print_tree()
-    print tree.get_tree_height()
+    #print tree.search(6).data
+    tree.delete(1)
+    tree.print_tree()
 
 
 main()
