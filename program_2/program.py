@@ -117,6 +117,7 @@ class BinarySearchTree:
                         elif current_node.data > parent_node.data:
                             parent_node.right = current_node.right
                 else:  # Option 3: Right child that has left child
+
                     left_most = current_node.right.left
                     left_most_parent = current_node.right
 
@@ -134,7 +135,7 @@ class BinarySearchTree:
                         if current_node.data < parent_node.data:
                             parent_node.left = left_most
                         elif current_node.data > parent_node.data:
-                            parent_node.left = left_most
+                            parent_node.right = left_most
 
                 return True
 
@@ -230,13 +231,15 @@ def main():
 
     tree = BinarySearchTree()
 
+    # Build a tree
     for number in input_1:
         tree.insert(int(number))
         # print tree.get_height()
 
     # Insert results
-    tree.print_tree()
+    # tree.print_tree()
 
+    # Preform operations
     for code in input_2:
         action, number = code.split(' ')
         number = int(number)
@@ -244,9 +247,10 @@ def main():
         if action == 'I':
             tree.insert(number)
 
+
     tree.print_tree()
-    #print tree.search(6).data
-    tree.delete(7)
+    print tree.search(14).data
+    tree.delete(14)
     tree.print_tree()
 
 
