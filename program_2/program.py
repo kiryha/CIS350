@@ -117,24 +117,24 @@ class BinarySearchTree:
                         elif current_node.data > parent_node.data:
                             parent_node.right = current_node.right
                 else:  # Option 3: Right child that has left child
-                    left_most_child = current_node.right.left
+                    left_most = current_node.right.left
                     left_most_parent = current_node.right
 
-                    while left_most_child is not None:
-                        left_most_parent = left_most_child
-                        left_most_child = left_most_child.left
+                    while left_most.left is not None:
+                        left_most_parent = left_most
+                        left_most = left_most.left
 
-                    left_most_parent.left = left_most_child.right
-                    left_most_child.left = current_node.left
-                    left_most_child.right = current_node.right
+                    left_most_parent.left = left_most.right
+                    left_most.left = current_node.left
+                    left_most.right = current_node.right
 
                     if parent_node is None:
-                        self.root = left_most_child
+                        self.root = left_most
                     else:
                         if current_node.data < parent_node.data:
-                            parent_node.left = left_most_child
+                            parent_node.left = left_most
                         elif current_node.data > parent_node.data:
-                            parent_node.left = left_most_child
+                            parent_node.left = left_most
 
                 return True
 
@@ -218,7 +218,7 @@ class BinarySearchTree:
 
 def main():
 
-    test_case_number = '3'
+    test_case_number = '4'
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
 
@@ -246,7 +246,7 @@ def main():
 
     tree.print_tree()
     #print tree.search(6).data
-    tree.delete(1)
+    tree.delete(7)
     tree.print_tree()
 
 
