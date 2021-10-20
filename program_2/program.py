@@ -14,7 +14,7 @@ import os
 
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
-
+operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
 
 def build_strings(node):
     """
@@ -148,15 +148,21 @@ class BSTree:
         return current
 
     def print_tree(self, root):
+        """
+        Build a string to print a tree
+        """
+
+        string = ''
 
         if not root:
-            print '>> Empty tree'
-            return
+            return '>> Empty tree'
 
         lines, a, b, c = build_strings(root)
         for line in lines:
-            print(line)
+            # print(line)
+            string += '{0}\n'.format(line)
 
+        return string
 
 class AVLTree:
     def insert(self, root, data):
@@ -328,55 +334,127 @@ class AVLTree:
 
     def print_tree(self, root):
 
+        string = ''
+
         if not root:
-            print '>> Empty tree'
-            return
+            return '>> Empty tree'
 
         lines, a, b, c = build_strings(root)
         for line in lines:
-            print(line)
+            # print(line)
+            string += '{0}\n'.format(line)
+
+        return string
 
 
-def main():
+def run_processing():
+    """
+    The entry point of a program
+    """
 
-    test_case_number = '2'
-    test_case_name = 'Test Case Name'
+    test_case_number = '5'
+    test_case_name = 'Unbalanced tree'
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
+    output_1_file_path = '{0}/data/output/test_case_{1}/output_{1}_1.txt'.format(program_root, test_case_number)
+    output_2_file_path = '{0}/data/output/test_case_{1}/output_{1}_2.txt'.format(program_root, test_case_number)
 
-    with open(input_1_file_path, 'r') as data:
-        input_1 = data.readlines()
+    # Prepare reports
+    bst_message = 'BST Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
+    avl_message = 'AVL Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
 
-    with open(input_2_file_path, 'r') as data:
-        input_2 = data.readlines()
+    file_error = None
+    if not os.path.exists(input_1_file_path):
+        file_error = True
+        bst_message += 'File read error! Input 1 is missing.\n'
+    if not os.path.exists(input_2_file_path):
+        file_error = True
+        avl_message += 'File read error! Input 2 is missing.\n'
 
-    bst_tree = BSTree()
-    avl_tree = AVLTree()
-    bst_root = None
-    avl_root = None
+    if not file_error:
 
-    # Build a tree
-    for number in input_1:
-        number = int(number)
-        bst_root = bst_tree.insert(bst_root, number)
-        avl_root = avl_tree.insert(avl_root, number)
+        with open(input_1_file_path, 'r') as data:
+            input_1 = data.readlines()
 
-    # Preform operations
-    for code in input_2:
-        action, number = code.split(' ')
-        number = int(number)
+        with open(input_2_file_path, 'r') as data:
+            input_2 = data.readlines()
 
-        if action == 'I':
-            bst_root = bst_tree.insert(bst_root, number)
-            avl_root = avl_tree.insert(avl_root, number)
+        bst_tree = BSTree()
+        avl_tree = AVLTree()
+        bst_root = None
+        avl_root = None
 
-        if action == 'I':
-            bst_root = bst_tree.insert(bst_root, number)
-            avl_root = avl_tree.insert(avl_root, number)
+        # Build a BST and AVL trees
+        if input_1:
 
-        if action == 'I':
-            bst_root = bst_tree.insert(bst_root, number)
-            avl_root = avl_tree.insert(avl_root, number)
+            for number in input_1:
+                number = int(number)
+                bst_root = bst_tree.insert(bst_root, number)
+                bst_message += 'Insert: {}\n'.format(number)
+                bst_message += bst_tree.print_tree(bst_root)
+                bst_message += 'Tree height: {}\n'.format(bst_tree.get_height(bst_root) - 1)
+                bst_message += '------------------------\n'
+
+            for number in input_1:
+                number = int(number)
+                avl_root = avl_tree.insert(avl_root, number)
+                avl_message += 'Insert: {}\n'.format(number)
+                avl_message += avl_tree.print_tree(avl_root)
+                avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
+                avl_message += '------------------------\n'
+
+        else:
+            bst_message += 'Data error! Input 1 is empty.\n'
+            avl_message += 'Data error! Input 1 is empty.\n'
+
+        bst_message += '\nOperations\n==================================\n'
+        avl_message += '\nOperations\n==================================\n'
+
+        # Preform operations on trees
+        if input_2:
+            for code in input_2:
+                action, number = code.split(' ')
+                number = int(number)
+
+                if action == 'I':
+                    bst_root = bst_tree.insert(bst_root, number)
+                    avl_root = avl_tree.insert(avl_root, number)
+
+                if action == 'S':
+                    bst_root = bst_tree.search(bst_root, number)
+                    avl_root = avl_tree.search(avl_root, number)
+
+                if action == 'D':
+                    bst_root = bst_tree.delete(bst_root, number)
+                    avl_root = avl_tree.delete(avl_root, number)
+
+                bst_message += '{0}: {1}\n'.format(operation_map[action], number)
+                bst_message += bst_tree.print_tree(bst_root)
+                bst_message += 'Tree height: {}\n'.format(bst_tree.get_height(bst_root) - 1)
+                bst_message += '------------------------\n'
+
+                avl_message += '{0}: {1}\n'.format(operation_map[action], number)
+                avl_message += avl_tree.print_tree(avl_root)
+                avl_message += 'Tree height: {}\n'.format(bst_tree.get_height(avl_root) - 1)
+                avl_message += '------------------------\n'
+
+        else:
+            bst_message += 'Data error! Input 2 is empty.\n'
+            avl_message += 'Data error! Input 2 is empty.\n'
+
+    # Record BST results
+    if not os.path.exists(os.path.dirname(output_1_file_path)):
+        os.makedirs(os.path.dirname(output_1_file_path))
+
+    # BST report
+    # print bst_message
+    with open(output_1_file_path, 'w') as output_1:
+        output_1.write(bst_message)
+
+    # AVL report
+    # print avl_message
+    with open(output_2_file_path, 'w') as output_2:
+        output_2.write(avl_message)
 
     # print '>> BST: '
     # # bst_root = bst_tree.delete(bst_root, 30)
@@ -388,4 +466,5 @@ def main():
     # print 'tree height = ', avl_tree.get_height(avl_root) - 1
 
 
-main()
+if __name__ == "__main__":
+    run_processing()
