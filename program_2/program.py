@@ -354,12 +354,13 @@ def run_processing():
     The entry point of a program
     """
 
-    test_case_number = '2'
-    test_case_name = 'Empty File'
+    test_case_number = '4'
+    test_case_name = 'Random searches'
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
     output_1_file_path = '{0}/data/output/test_case_{1}/output_{1}_1.txt'.format(program_root, test_case_number)
     output_2_file_path = '{0}/data/output/test_case_{1}/output_{1}_2.txt'.format(program_root, test_case_number)
+    output_3_file_path = '{0}/data/output/summary_output.txt'.format(program_root)
 
     # Prepare reports
     bst_message = 'BST Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
@@ -423,6 +424,11 @@ def run_processing():
                 action, number = code.split(' ')
                 number = int(number)
 
+                if action not in operation_map.keys():
+                    bst_message += 'Operation error! Wrong action {}, skipped\n'.format(action)
+                    avl_message += 'Operation error! Wrong action {}, skipped\n'.format(action)
+                    continue
+
                 if action == 'I':
                     bst_root = bst_tree.insert(bst_root, number)
                     avl_root = avl_tree.insert(avl_root, number)
@@ -449,7 +455,7 @@ def run_processing():
             bst_message += 'Data error! Input 2 is empty.\n'
             avl_message += 'Data error! Input 2 is empty.\n'
 
-    # Record BST results
+    # Record results
     if not os.path.exists(os.path.dirname(output_1_file_path)):
         os.makedirs(os.path.dirname(output_1_file_path))
 
