@@ -191,11 +191,11 @@ class AVLTree:
 
         # Left Right
         if balance > 1 and data > root.left.data:
-            return self.left_right(root.left)
+            return self.left_right(root)
 
         # Right Left
         if balance < -1 and data < root.right.data:
-            return self.right_left(root.right)
+            return self.right_left(root)
 
         return root
 
@@ -354,8 +354,8 @@ def run_processing():
     The entry point of a program
     """
 
-    test_case_number = '4'
-    test_case_name = 'Random searches'
+    test_case_number = '5'
+    test_case_name = 'Unbalanced BST'  # Ideal Tree   Random searches
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
     output_1_file_path = '{0}/data/output/test_case_{1}/output_{1}_1.txt'.format(program_root, test_case_number)

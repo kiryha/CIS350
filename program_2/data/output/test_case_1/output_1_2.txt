@@ -1,3 +1,0 @@
-AVL Test Case 1: Missing File
-
-File read error! Input 2 is missing.
