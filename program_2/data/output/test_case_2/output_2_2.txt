@@ -1,0 +1,60 @@
+AVL Test Case 2: Empty File
+
+### Building tree ###
+Insert: 10
+10
+Tree height: 0
+------------------------
+
+Insert: 20
+10_ 
+   \
+  20
+Tree height: 1
+------------------------
+
+Insert: 30
+  20_ 
+ /   \
+10  30
+Tree height: 1
+------------------------
+
+Insert: 40
+  20_   
+ /   \  
+10  30_ 
+       \
+      40
+Tree height: 2
+------------------------
+
+Insert: 50
+  20___   
+ /     \  
+10    40_ 
+     /   \
+    30  50
+Tree height: 2
+------------------------
+
+Insert: 60
+    __40_   
+   /     \  
+  20_   50_ 
+ /   \     \
+10  30    60
+Tree height: 2
+------------------------
+
+Insert: 70
+    __40___   
+   /       \  
+  20_     60_ 
+ /   \   /   \
+10  30  50  70
+Tree height: 2
+------------------------
+
+### Operations ###
+Data error! Input 2 is empty.

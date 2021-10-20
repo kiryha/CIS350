@@ -276,7 +276,7 @@ class AVLTree:
         return current
 
     def right_right(self, node_3):
-
+        """ Left rotation """
         node_2 = node_3.right
         temp = node_2.left
 
@@ -292,7 +292,7 @@ class AVLTree:
         return node_2
 
     def left_left(self, node_3):
-        """ Right rotate """
+        """ Right rotation """
 
         node_2 = node_3.left
         temp = node_2.right
@@ -309,11 +309,13 @@ class AVLTree:
         return node_2
 
     def left_right(self, node):
+        """ Left + Right rotation """
 
         node.left = self.right_right(node.left)
         return self.left_left(node)
 
     def right_left(self, node):
+        """ Right + Left rotation """
 
         node.right = self.left_left(node.right)
         return self.right_right(node)
@@ -352,8 +354,8 @@ def run_processing():
     The entry point of a program
     """
 
-    test_case_number = '5'
-    test_case_name = 'Unbalanced tree'
+    test_case_number = '2'
+    test_case_name = 'Empty File'
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
     output_1_file_path = '{0}/data/output/test_case_{1}/output_{1}_1.txt'.format(program_root, test_case_number)
@@ -367,8 +369,10 @@ def run_processing():
     if not os.path.exists(input_1_file_path):
         file_error = True
         bst_message += 'File read error! Input 1 is missing.\n'
+        avl_message += 'File read error! Input 1 is missing.\n'
     if not os.path.exists(input_2_file_path):
         file_error = True
+        bst_message += 'File read error! Input 2 is missing.\n'
         avl_message += 'File read error! Input 2 is missing.\n'
 
     if not file_error:
@@ -384,6 +388,9 @@ def run_processing():
         bst_root = None
         avl_root = None
 
+        bst_message += '### Building tree ###\n'
+        avl_message += '### Building tree ###\n'
+
         # Build a BST and AVL trees
         if input_1:
 
@@ -393,7 +400,7 @@ def run_processing():
                 bst_message += 'Insert: {}\n'.format(number)
                 bst_message += bst_tree.print_tree(bst_root)
                 bst_message += 'Tree height: {}\n'.format(bst_tree.get_height(bst_root) - 1)
-                bst_message += '------------------------\n'
+                bst_message += '------------------------\n\n'
 
             for number in input_1:
                 number = int(number)
@@ -401,14 +408,14 @@ def run_processing():
                 avl_message += 'Insert: {}\n'.format(number)
                 avl_message += avl_tree.print_tree(avl_root)
                 avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
-                avl_message += '------------------------\n'
+                avl_message += '------------------------\n\n'
 
         else:
             bst_message += 'Data error! Input 1 is empty.\n'
             avl_message += 'Data error! Input 1 is empty.\n'
 
-        bst_message += '\nOperations\n==================================\n'
-        avl_message += '\nOperations\n==================================\n'
+        bst_message += '### Operations ###\n'
+        avl_message += '### Operations ###\n'
 
         # Preform operations on trees
         if input_2:
