@@ -15,6 +15,8 @@ import os
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
+test_names_map = {'0': 'Test', '1': 'Missing File', '2': 'Empty File', '3': 'Ideal Tree', '4': 'Random Searches',
+                  '5': 'Unbalanced BST', '6': 'Perform Inserts', '7': 'Perform Deletes', '8': 'Perform Searches'}
 
 def build_strings(node):
     """
@@ -155,7 +157,7 @@ class BSTree:
         string = ''
 
         if not root:
-            return '>> Empty tree'
+            return '>> Empty tree\n'
 
         lines, a, b, c = build_strings(root)
         for line in lines:
@@ -164,7 +166,10 @@ class BSTree:
 
         return string
 
+
 class AVLTree:
+    rotations = ''
+
     def insert(self, root, data):
 
         # Perform BST
@@ -183,18 +188,22 @@ class AVLTree:
 
         # Left Left
         if balance > 1 and data < root.left.data:
+            AVLTree.rotations += 'Left-Left'
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and data > root.right.data:
+            AVLTree.rotations += 'Right-Right'
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and data > root.left.data:
+            AVLTree.rotations += 'Left-Right'
             return self.left_right(root)
 
         # Right Left
         if balance < -1 and data < root.right.data:
+            AVLTree.rotations += 'Right-Left'
             return self.right_left(root)
 
         return root
@@ -250,19 +259,23 @@ class AVLTree:
 
         # Left Left
         if balance > 1 and self.get_balance(root.left) >= 0:
+            AVLTree.rotations += 'Left-Left'
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and self.get_balance(root.right) <= 0:
+            AVLTree.rotations += 'Right-Right'
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and self.get_balance(root.left) < 0:
-            return self.left_right(root.left)
+            AVLTree.rotations += 'Left-Right'
+            return self.left_right(root)
 
         # Right Left
         if balance < -1 and self.get_balance(root.right) > 0:
-            return self.right_left(root.right)
+            AVLTree.rotations += 'Right-Left'
+            return self.right_left(root)
 
         return root
 
@@ -339,7 +352,7 @@ class AVLTree:
         string = ''
 
         if not root:
-            return '>> Empty tree'
+            return '>> Empty tree\n'
 
         lines, a, b, c = build_strings(root)
         for line in lines:
@@ -354,8 +367,8 @@ def run_processing():
     The entry point of a program
     """
 
-    test_case_number = '5'
-    test_case_name = 'Unbalanced BST'  # Ideal Tree   Random searches
+    test_case_number = '4'
+    test_case_name = test_names_map[test_case_number]
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
     output_1_file_path = '{0}/data/output/test_case_{1}/output_{1}_1.txt'.format(program_root, test_case_number)
@@ -397,17 +410,21 @@ def run_processing():
 
             for number in input_1:
                 number = int(number)
+                # Insert
                 bst_root = bst_tree.insert(bst_root, number)
+                AVLTree.rotations = ''
+                avl_root = avl_tree.insert(avl_root, number)
+
+                # Report BST
                 bst_message += 'Insert: {}\n'.format(number)
                 bst_message += bst_tree.print_tree(bst_root)
                 bst_message += 'Tree height: {}\n'.format(bst_tree.get_height(bst_root) - 1)
                 bst_message += '------------------------\n\n'
 
-            for number in input_1:
-                number = int(number)
-                avl_root = avl_tree.insert(avl_root, number)
+                # Report AVL
                 avl_message += 'Insert: {}\n'.format(number)
                 avl_message += avl_tree.print_tree(avl_root)
+                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotations)
                 avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n\n'
 
@@ -423,6 +440,7 @@ def run_processing():
             for code in input_2:
                 action, number = code.split(' ')
                 number = int(number)
+                AVLTree.rotations = ''
 
                 if action not in operation_map.keys():
                     bst_message += 'Operation error! Wrong action {}, skipped\n'.format(action)
@@ -434,8 +452,8 @@ def run_processing():
                     avl_root = avl_tree.insert(avl_root, number)
 
                 if action == 'S':
-                    bst_root = bst_tree.search(bst_root, number)
-                    avl_root = avl_tree.search(avl_root, number)
+                    bst_tree.search(bst_root, number)
+                    avl_tree.search(avl_root, number)
 
                 if action == 'D':
                     bst_root = bst_tree.delete(bst_root, number)
@@ -448,6 +466,7 @@ def run_processing():
 
                 avl_message += '{0}: {1}\n'.format(operation_map[action], number)
                 avl_message += avl_tree.print_tree(avl_root)
+                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotations)
                 avl_message += 'Tree height: {}\n'.format(bst_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n'
 
