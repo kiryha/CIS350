@@ -9,17 +9,19 @@ Build BST and AVL trees
 Student: Kyrylo Krysko
 Date started: 10/14/2021
 """
-import math
 import os
 
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
 test_names_map = {'0': 'Test', '1': 'Missing File', '2': 'Empty File', '3': 'Ideal Tree', '4': 'Random Searches',
-                  '5': 'Unbalanced BST', '6': 'Perform Inserts', '7': 'Perform Deletes', '8': 'Perform Searches'}
+                  '5': 'Unbalanced BST', '6': 'Perform Inserts', '7': 'Perform Deletes', '8': 'Perform Searches',
+                  '9': 'Collisions', '10': 'Basic RR', '11': 'Basic LL', '12': 'Basic RL', '13': 'Basic LR'}
+
 
 def build_strings(node):
     """
+    Build a string that represents a tree structure
     Returns list of strings, width, height, and horizontal coordinate of the root for printing tree
     """
 
@@ -76,6 +78,8 @@ class Node:
 
 
 class BSTree:
+    operations = 0
+
     def insert(self, root, data):
 
         if not root:
@@ -134,6 +138,9 @@ class BSTree:
         return root
 
     def get_height(self, root):
+        """
+        Get height of a tree
+        """
 
         if not root:
             return 0
@@ -151,7 +158,7 @@ class BSTree:
 
     def print_tree(self, root):
         """
-        Build a string to print a tree
+        Build and return a string representation of a tree
         """
 
         string = ''
@@ -236,12 +243,10 @@ class AVLTree:
         else:
             if root.left is None:
                 temp = root.right
-                root = None
                 return temp
 
             elif root.right is None:
                 temp = root.left
-                root = None
                 return temp
 
             temp = self.min_value_node(root.right)
@@ -280,6 +285,9 @@ class AVLTree:
         return root
 
     def min_value_node(self, node):
+        """
+        Gen minimum value from node's subtrees
+        """
 
         current = node
 
@@ -290,6 +298,7 @@ class AVLTree:
 
     def right_right(self, node_3):
         """ Left rotation """
+
         node_2 = node_3.right
         temp = node_2.left
 
@@ -322,25 +331,34 @@ class AVLTree:
         return node_2
 
     def left_right(self, node):
-        """ Left + Right rotation """
+        """
+        Left + Right rotation
+        """
 
         node.left = self.right_right(node.left)
         return self.left_left(node)
 
     def right_left(self, node):
-        """ Right + Left rotation """
+        """
+        Right + Left rotation
+        """
 
         node.right = self.left_left(node.right)
         return self.right_right(node)
 
     def get_height(self, root):
-
+        """
+        Return height of a tree
+        """
         if not root:
             return 0
 
         return root.height
 
     def get_balance(self, root):
+        """
+        Calculate balance factor for AVL tree
+        """
 
         if not root:
             return 0
@@ -348,6 +366,9 @@ class AVLTree:
         return self.get_height(root.left) - self.get_height(root.right)
 
     def print_tree(self, root):
+        """
+        Build and return a string representation of a tree
+        """
 
         string = ''
 
@@ -356,7 +377,6 @@ class AVLTree:
 
         lines, a, b, c = build_strings(root)
         for line in lines:
-            # print(line)
             string += '{0}\n'.format(line)
 
         return string
@@ -367,6 +387,7 @@ def run_processing():
     The entry point of a program
     """
 
+    # Manually provided test cases
     test_case_number = '4'
     test_case_name = test_names_map[test_case_number]
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
@@ -379,6 +400,7 @@ def run_processing():
     bst_message = 'BST Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
     avl_message = 'AVL Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
 
+    # Read inputs
     file_error = None
     if not os.path.exists(input_1_file_path):
         file_error = True
@@ -389,6 +411,7 @@ def run_processing():
         bst_message += 'File read error! Input 2 is missing.\n'
         avl_message += 'File read error! Input 2 is missing.\n'
 
+    # Process inputs
     if not file_error:
 
         with open(input_1_file_path, 'r') as data:
@@ -397,6 +420,7 @@ def run_processing():
         with open(input_2_file_path, 'r') as data:
             input_2 = data.readlines()
 
+        # Create empty tree objects for BST and AVL
         bst_tree = BSTree()
         avl_tree = AVLTree()
         bst_root = None
@@ -407,12 +431,12 @@ def run_processing():
 
         # Build a BST and AVL trees
         if input_1:
-
             for number in input_1:
                 number = int(number)
+                # print 'number = ', number
                 # Insert
-                bst_root = bst_tree.insert(bst_root, number)
                 AVLTree.rotations = ''
+                bst_root = bst_tree.insert(bst_root, number)
                 avl_root = avl_tree.insert(avl_root, number)
 
                 # Report BST
@@ -429,6 +453,7 @@ def run_processing():
                 avl_message += '------------------------\n\n'
 
         else:
+            # Record input 1 error
             bst_message += 'Data error! Input 1 is empty.\n'
             avl_message += 'Data error! Input 1 is empty.\n'
 
@@ -471,6 +496,7 @@ def run_processing():
                 avl_message += '------------------------\n'
 
         else:
+            # Record input 2 error
             bst_message += 'Data error! Input 2 is empty.\n'
             avl_message += 'Data error! Input 2 is empty.\n'
 
@@ -487,15 +513,6 @@ def run_processing():
     # print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
-
-    # print '>> BST: '
-    # # bst_root = bst_tree.delete(bst_root, 30)
-    # # bst_root = bst_tree.insert(bst_root, 25)
-    # bst_tree.print_tree(bst_root)
-    # print 'tree height = ', bst_tree.get_height(bst_root) - 1
-    # print '>> AVL: '
-    # avl_tree.print_tree(avl_root)
-    # print 'tree height = ', avl_tree.get_height(avl_root) - 1
 
 
 if __name__ == "__main__":
