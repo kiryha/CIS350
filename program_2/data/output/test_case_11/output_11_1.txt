@@ -1,0 +1,33 @@
+BST Test Case 11: Basic LL
+
+### Building tree ###
+Insert: 30
+30
+Tree height: 0
+------------------------
+
+Insert: 20
+  30
+ /  
+20  
+Tree height: 1
+------------------------
+
+Insert: 10
+    30
+   /  
+  20  
+ /    
+10    
+Tree height: 2
+------------------------
+
+### Operations ###
+Search: 20
+    30
+   /  
+  20  
+ /    
+10    
+Tree height: 2
+------------------------

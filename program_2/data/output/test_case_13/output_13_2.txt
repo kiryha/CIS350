@@ -1,0 +1,33 @@
+AVL Test Case 13: Basic LR
+
+### Building tree ###
+Insert: 30
+30
+Rotation operations: 
+Tree height: 0
+------------------------
+
+Insert: 10
+  30
+ /  
+10  
+Rotation operations: 
+Tree height: 1
+------------------------
+
+Insert: 20
+  20_ 
+ /   \
+10  30
+Rotation operations: Left-Right
+Tree height: 1
+------------------------
+
+### Operations ###
+Search: 40
+  20_ 
+ /   \
+10  30
+Rotation operations: 
+Tree height: 1
+------------------------

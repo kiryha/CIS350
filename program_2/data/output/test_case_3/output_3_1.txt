@@ -1,0 +1,55 @@
+BST Test Case 3: Ideal Tree
+
+### Building tree ###
+Insert: 4
+4
+Tree height: 0
+------------------------
+
+Insert: 2
+ 4
+/ 
+2 
+Tree height: 1
+------------------------
+
+Insert: 6
+ 4 
+/ \
+2 6
+Tree height: 1
+------------------------
+
+### Operations ###
+Insert: 1
+  4 
+ / \
+ 2 6
+/   
+1   
+Tree height: 2
+------------------------
+Insert: 3
+  _4 
+ /  \
+ 2  6
+/ \  
+1 3  
+Tree height: 2
+------------------------
+Insert: 5
+  _4_ 
+ /   \
+ 2   6
+/ \ / 
+1 3 5 
+Tree height: 2
+------------------------
+Insert: 7
+  _4_  
+ /   \ 
+ 2   6 
+/ \ / \
+1 3 5 7
+Tree height: 2
+------------------------

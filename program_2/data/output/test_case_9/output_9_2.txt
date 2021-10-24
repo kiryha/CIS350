@@ -1,0 +1,35 @@
+AVL Test Case 9: Collisions
+
+### Building tree ###
+Insert: 5
+5
+Rotation operations: 
+Tree height: 0
+------------------------
+
+Insert: 10
+5_ 
+  \
+ 10
+Rotation operations: 
+Tree height: 1
+------------------------
+
+Insert: 15
+ 10_ 
+/   \
+5  15
+Rotation operations: Right-Right
+Tree height: 1
+------------------------
+
+### Operations ###
+Insert: 15
+ 10_   
+/   \  
+5  15_ 
+      \
+     15
+Rotation operations: 
+Tree height: 2
+------------------------

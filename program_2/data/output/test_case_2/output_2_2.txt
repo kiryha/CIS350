@@ -1,0 +1,91 @@
+AVL Test Case 2: Empty File
+
+### Building tree ###
+Insert: 10
+10
+Rotation operations: 
+Tree height: 0
+------------------------
+
+Insert: 20
+10_ 
+   \
+  20
+Rotation operations: 
+Tree height: 1
+------------------------
+
+Insert: 30
+  20_ 
+ /   \
+10  30
+Rotation operations: Right-Right
+Tree height: 1
+------------------------
+
+Insert: 50
+  20_   
+ /   \  
+10  30_ 
+       \
+      50
+Rotation operations: 
+Tree height: 2
+------------------------
+
+Insert: 40
+  20___   
+ /     \  
+10    40_ 
+     /   \
+    30  50
+Rotation operations: Right-Left
+Tree height: 2
+------------------------
+
+Insert: 60
+    __40_   
+   /     \  
+  20_   50_ 
+ /   \     \
+10  30    60
+Rotation operations: Right-Right
+Tree height: 2
+------------------------
+
+Insert: 90
+    __40___   
+   /       \  
+  20_     60_ 
+ /   \   /   \
+10  30  50  90
+Rotation operations: Right-Right
+Tree height: 2
+------------------------
+
+Insert: 80
+    __40___     
+   /       \    
+  20_     60___ 
+ /   \   /     \
+10  30  50    90
+             /  
+            80  
+Rotation operations: 
+Tree height: 3
+------------------------
+
+Insert: 70
+    __40___       
+   /       \      
+  20_     60___   
+ /   \   /     \  
+10  30  50    80_ 
+             /   \
+            70  90
+Rotation operations: Left-Left
+Tree height: 3
+------------------------
+
+### Operations ###
+Data error! Input 2 is empty.

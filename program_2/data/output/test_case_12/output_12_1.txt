@@ -1,0 +1,33 @@
+BST Test Case 12: Basic RL
+
+### Building tree ###
+Insert: 10
+10
+Tree height: 0
+------------------------
+
+Insert: 30
+10_ 
+   \
+  30
+Tree height: 1
+------------------------
+
+Insert: 20
+10___ 
+     \
+    30
+   /  
+  20  
+Tree height: 2
+------------------------
+
+### Operations ###
+Search: 30
+10___ 
+     \
+    30
+   /  
+  20  
+Tree height: 2
+------------------------

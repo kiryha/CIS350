@@ -14,9 +14,20 @@ import os
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
-test_names_map = {'0': 'Test', '1': 'Missing File', '2': 'Empty File', '3': 'Ideal Tree', '4': 'Random Searches',
-                  '5': 'Unbalanced BST', '6': 'Perform Inserts', '7': 'Perform Deletes', '8': 'Perform Searches',
-                  '9': 'Collisions', '10': 'Basic RR', '11': 'Basic LL', '12': 'Basic RL', '13': 'Basic LR'}
+test_names_map = {'0': 'Tests',
+                  '1': 'Missing File',
+                  '2': 'Empty File',
+                  '3': 'Ideal Tree',
+                  '4': 'Random Searches',
+                  '5': 'Unbalanced BST',
+                  '6': 'Perform Inserts',
+                  '7': 'Perform Deletes',
+                  '8': 'Perform Searches',
+                  '9': 'Collisions',
+                  '10': 'Basic RR',
+                  '11': 'Basic LL',
+                  '12': 'Basic RL',
+                  '13': 'Basic LR'}
 
 
 def build_strings(node):
@@ -388,7 +399,7 @@ def run_processing():
     """
 
     # Manually provided test cases
-    test_case_number = '4'
+    test_case_number = '0'
     test_case_name = test_names_map[test_case_number]
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
@@ -425,6 +436,10 @@ def run_processing():
         avl_tree = AVLTree()
         bst_root = None
         avl_root = None
+        bst_operations = 0
+        bst_sum_operations = 0
+        avl_operations = 0
+        avl_sum_operations = 0
 
         bst_message += '### Building tree ###\n'
         avl_message += '### Building tree ###\n'
@@ -433,7 +448,7 @@ def run_processing():
         if input_1:
             for number in input_1:
                 number = int(number)
-                # print 'number = ', number
+
                 # Insert
                 AVLTree.rotations = ''
                 bst_root = bst_tree.insert(bst_root, number)
