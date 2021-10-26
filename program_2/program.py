@@ -4,6 +4,14 @@ Python version: 2.7
 
 # Scope
 Build BST and AVL trees
+The User will provide several Test Cases to process by the program.
+The program will compare operations performed by BST and AVL trees using two input data files for each Test Case.
+The results would be recorded to two output files (for BST and AVL) for each Test Case.
+The summary result file will contain all operations for all test cases.
+
+# Data
+The source data located in /data/input/test_case_#
+The results stored in /data/output/test_case_#
 
 # Credentials
 Student: Kyrylo Krysko
@@ -187,6 +195,7 @@ class BSTree:
 
 class AVLTree:
     rotations = ''
+    rotations_count = 0
 
     def insert(self, root, data):
 
@@ -207,21 +216,25 @@ class AVLTree:
         # Left Left
         if balance > 1 and data < root.left.data:
             AVLTree.rotations += 'Left-Left'
+            AVLTree.rotations_count += 1
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and data > root.right.data:
             AVLTree.rotations += 'Right-Right'
+            AVLTree.rotations_count += 1
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and data > root.left.data:
             AVLTree.rotations += 'Left-Right'
+            AVLTree.rotations_count += 2
             return self.left_right(root)
 
         # Right Left
         if balance < -1 and data < root.right.data:
             AVLTree.rotations += 'Right-Left'
+            AVLTree.rotations_count += 2
             return self.right_left(root)
 
         return root
@@ -393,13 +406,18 @@ class AVLTree:
         return string
 
 
-def run_processing():
+def increment_operations(operations, action, value=1):
     """
-    The entry point of a program
+    Count insert, delete and search operations on BST and AVL trees
     """
 
+    operations[action] = operations[action] + value
+
+
+def process_test_case(test_case_number):
+
     # Manually provided test cases
-    test_case_number = '0'
+    # test_case_number = '0'
     test_case_name = test_names_map[test_case_number]
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
@@ -410,6 +428,10 @@ def run_processing():
     # Prepare reports
     bst_message = 'BST Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
     avl_message = 'AVL Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
+    bst_operations = {'S': 0, 'I': 0, 'D': 0}
+    bst_sum_operations = 0
+    avl_operations = {'S': 0, 'I': 0, 'D': 0, 'R': 0}
+    avl_sum_operations = 0
 
     # Read inputs
     file_error = None
@@ -436,10 +458,6 @@ def run_processing():
         avl_tree = AVLTree()
         bst_root = None
         avl_root = None
-        bst_operations = 0
-        bst_sum_operations = 0
-        avl_operations = 0
-        avl_sum_operations = 0
 
         bst_message += '### Building tree ###\n'
         avl_message += '### Building tree ###\n'
@@ -451,6 +469,7 @@ def run_processing():
 
                 # Insert
                 AVLTree.rotations = ''
+
                 bst_root = bst_tree.insert(bst_root, number)
                 avl_root = avl_tree.insert(avl_root, number)
 
@@ -466,6 +485,10 @@ def run_processing():
                 avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotations)
                 avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n\n'
+
+                # Count insert operations
+                increment_operations(bst_operations, 'I')
+                increment_operations(avl_operations, 'I')
 
         else:
             # Record input 1 error
@@ -488,16 +511,26 @@ def run_processing():
                     continue
 
                 if action == 'I':
+                    # Add node
                     bst_root = bst_tree.insert(bst_root, number)
                     avl_root = avl_tree.insert(avl_root, number)
+                    # Count operations
+                    increment_operations(bst_operations, 'I')
+                    increment_operations(avl_operations, 'I')
+                    increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
                 if action == 'S':
                     bst_tree.search(bst_root, number)
                     avl_tree.search(avl_root, number)
+                    increment_operations(bst_operations, 'S')
+                    increment_operations(avl_operations, 'S')
 
                 if action == 'D':
                     bst_root = bst_tree.delete(bst_root, number)
                     avl_root = avl_tree.delete(avl_root, number)
+                    increment_operations(bst_operations, 'D')
+                    increment_operations(avl_operations, 'D')
+                    increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
                 bst_message += '{0}: {1}\n'.format(operation_map[action], number)
                 bst_message += bst_tree.print_tree(bst_root)
@@ -528,6 +561,21 @@ def run_processing():
     # print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
+
+    # Operations report
+    print bst_operations['I'], bst_operations['S'], bst_operations['D']
+    print avl_operations['I'], avl_operations['S'], avl_operations['D'], avl_operations['R']
+
+
+def run_processing():
+    """
+    The entry point of a program.
+    Run trees and reports generation for test cases from test_names_map dictionary.
+    """
+
+    # for test_case_number in test_names_map.keys():
+    for test_case_number in range(1):
+        process_test_case(str(test_case_number))
 
 
 if __name__ == "__main__":

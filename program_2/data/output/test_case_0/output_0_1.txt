@@ -1,4 +1,4 @@
-BST Test Case 0: Test
+BST Test Case 0: Tests
 
 ### Building tree ###
 Insert: 4
@@ -14,4 +14,17 @@ Tree height: 1
 ------------------------
 
 ### Operations ###
-Data error! Input 2 is empty.
+Search: 3
+4 
+ \
+ 5
+Tree height: 1
+------------------------
+Insert: 6
+4  
+ \ 
+ 5 
+  \
+  6
+Tree height: 2
+------------------------
