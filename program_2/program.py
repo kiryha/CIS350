@@ -51,7 +51,7 @@ def build_summary_table(values):
 
     message = '{0:>60}\n\n\n'.format('Summary Operations Count')
 
-    row = "{}{:>12}{:>24}{:>12}{:>12}\n"
+    row = '{}{:>12}{:>24}{:>12}{:>12}\n'
     message += row.format('', *columns)
     message += '\n'
 
@@ -78,7 +78,7 @@ def build_operation_table(test_case_name, values):
     message = '{0:>34}\n'.format('Operations count for:')
     message += '{0:>34}\n\n\n'.format(test_case_name)
 
-    row = "{:>10}{:>12}{:>12}\n"
+    row = '{:>10}{:>12}{:>12}\n'
     message += row.format('', *tree_names)
     message += '\n'
 
@@ -143,14 +143,6 @@ def build_tree_structure(node):
     return lines, n + m + u, max(p, q) + 2, n + u // 2
 
 
-def increment_operations(operations, action, value=1):
-    """
-    Count insert, delete and search operations on BST and AVL trees
-    """
-
-    operations[action] = operations[action] + value
-
-
 class Node:
     def __init__(self, data=None):
         self.data = data
@@ -160,7 +152,6 @@ class Node:
 
 
 class BSTree:
-    operations = 0
 
     def __init__(self):
         self.primitive_operations = 0
@@ -649,12 +640,12 @@ def process_test_case(test_case_number):
     operations_message, sum_bst, sum_avl = build_operation_table(test_case_name, values)
 
     # BST report
-    # print bst_message
+    print bst_message
     with open(output_1_file_path, 'w') as output_1:
         output_1.write(bst_message)
 
     # AVL report
-    # print avl_message
+    print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
 
