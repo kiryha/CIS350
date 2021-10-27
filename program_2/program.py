@@ -45,15 +45,15 @@ def build_summary_table(values):
     values = [ [ test case #, name, sum bst, sum avl ], ... ]
     """
 
-    coulumns = ['Test #', 'Test Title', 'BST', 'AVL']
+    columns = ['Test #', 'Test Title', 'BST', 'AVL']
     sum_bst = sum(value[2] for value in values)
     sum_avl = sum(value[3] for value in values)
 
-    message = '{0:>60}\n\n'.format('Summary Operations Count')
+    message = '{0:>60}\n\n\n'.format('Summary Operations Count')
 
-    row = "{}{:>12}{:>24}{:>12}{:>12}"
-    row += '\n'
-    message += row.format('', *coulumns)
+    row = "{}{:>12}{:>24}{:>12}{:>12}\n"
+    message += row.format('', *columns)
+    message += '\n'
 
     for index, value in enumerate(values):
         message += row.format('', *value)
@@ -76,11 +76,11 @@ def build_operation_table(test_case_name, values):
     sum_avl = sum(value[1] for value in values)
 
     message = '{0:>34}\n'.format('Operations count for:')
-    message += '{0:>34}\n\n'.format(test_case_name)
+    message += '{0:>34}\n\n\n'.format(test_case_name)
 
-    row = "{:>10}{:>12}{:>12}"
-    row += '\n'
+    row = "{:>10}{:>12}{:>12}\n"
     message += row.format('', *tree_names)
+    message += '\n'
 
     for index, value in enumerate(values):
         message += row.format(operations[index], *value)

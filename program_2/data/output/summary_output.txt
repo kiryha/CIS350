@@ -1,6 +1,8 @@
                                     Summary Operations Count
 
+
       Test #              Test Title         BST         AVL
+
            1            Missing File           0           0
            2              Empty File           9          28
            3              Ideal Tree           7           7
