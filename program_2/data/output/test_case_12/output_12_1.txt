@@ -37,3 +37,18 @@ Delete: 10
 20  
 Tree height: 1
 ------------------------
+
+
+             Operations count for:
+                          Basic RL
+
+
+                   BST         AVL
+
+    Search           1           1
+    Insert           3           3
+    Delete           1           1
+ Rotations           0           2
+
+     Total           5           7
+

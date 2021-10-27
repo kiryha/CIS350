@@ -618,16 +618,6 @@ def process_test_case(test_case_number):
     if not os.path.exists(os.path.dirname(output_1_file_path)):
         os.makedirs(os.path.dirname(output_1_file_path))
 
-    # BST report
-    # print bst_message
-    with open(output_1_file_path, 'w') as output_1:
-        output_1.write(bst_message)
-
-    # AVL report
-    # print avl_message
-    with open(output_2_file_path, 'w') as output_2:
-        output_2.write(avl_message)
-
     # Operations report
     values = [[bst_operations['S'], avl_operations['S']],
               [bst_operations['I'], avl_operations['I']],
@@ -635,6 +625,20 @@ def process_test_case(test_case_number):
               [0, avl_operations['R']]]
 
     operations_message, sum_bst, sum_avl = build_operation_table(test_case_name, values)
+
+    # BST report
+    print bst_message
+    with open(output_1_file_path, 'w') as output_1:
+        output_1.write(bst_message)
+        output_1.write('\n\n')
+        output_1.write(operations_message)
+
+    # AVL report
+    print avl_message
+    with open(output_2_file_path, 'w') as output_2:
+        output_2.write(avl_message)
+        output_2.write('\n\n')
+        output_2.write(operations_message)
 
     print operations_message
 

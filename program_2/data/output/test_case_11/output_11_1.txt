@@ -31,3 +31,18 @@ Search: 20
 10    
 Tree height: 2
 ------------------------
+
+
+             Operations count for:
+                          Basic LL
+
+
+                   BST         AVL
+
+    Search           1           1
+    Insert           3           3
+    Delete           0           0
+ Rotations           0           1
+
+     Total           4           5
+

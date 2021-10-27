@@ -33,3 +33,18 @@ Insert: 15
      15
 Tree height: 3
 ------------------------
+
+
+             Operations count for:
+                        Collisions
+
+
+                   BST         AVL
+
+    Search           0           0
+    Insert           4           4
+    Delete           0           0
+ Rotations           0           2
+
+     Total           4           6
+
