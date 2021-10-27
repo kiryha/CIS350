@@ -37,7 +37,7 @@ test_names_map = {0: 'Tests',
                   12: 'Basic RL',
                   13: 'Basic LR'}
 
-test_names_map = {10: 'Basic RR', 12: 'Basic RL'}
+test_names_map = {0: 'Test'}  # 10: 'Basic RR', 12: 'Basic RL'
 
 
 def build_summary_table(values):
@@ -257,7 +257,7 @@ class BSTree:
 
 
 class AVLTree:
-    rotations = ''
+    rotation_type = ''
     rotations_count = 0
 
     def insert(self, root, data):
@@ -279,25 +279,25 @@ class AVLTree:
         # Perform rotations
         # Left Left
         if balance > 1 and data < root.left.data:
-            AVLTree.rotations += 'Left-Left'
+            AVLTree.rotation_type += 'Left-Left'
             AVLTree.rotations_count += 1
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and data > root.right.data:
-            AVLTree.rotations += 'Right-Right'
+            AVLTree.rotation_type += 'Right-Right'
             AVLTree.rotations_count += 1
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and data > root.left.data:
-            AVLTree.rotations += 'Left-Right'
+            AVLTree.rotation_type += 'Left-Right'
             AVLTree.rotations_count += 2
             return self.left_right(root)
 
         # Right Left
         if balance < -1 and data < root.right.data:
-            AVLTree.rotations += 'Right-Left'
+            AVLTree.rotation_type += 'Right-Left'
             AVLTree.rotations_count += 2
             return self.right_left(root)
 
@@ -357,22 +357,26 @@ class AVLTree:
         # Perform rotations
         # Left Left
         if balance > 1 and self.get_balance(root.left) >= 0:
-            AVLTree.rotations += 'Left-Left'
+            AVLTree.rotation_type += 'Left-Left'
+            AVLTree.rotations_count += 1
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and self.get_balance(root.right) <= 0:
-            AVLTree.rotations += 'Right-Right'
+            AVLTree.rotation_type += 'Right-Right'
+            AVLTree.rotations_count += 1
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and self.get_balance(root.left) < 0:
-            AVLTree.rotations += 'Left-Right'
+            AVLTree.rotation_type += 'Left-Right'
+            AVLTree.rotations_count += 2
             return self.left_right(root)
 
         # Right Left
         if balance < -1 and self.get_balance(root.right) > 0:
-            AVLTree.rotations += 'Right-Left'
+            AVLTree.rotation_type += 'Right-Left'
+            AVLTree.rotations_count += 2
             return self.right_left(root)
 
         return root
@@ -526,7 +530,7 @@ def process_test_case(test_case_number):
                 number = int(number)
 
                 # Insert
-                AVLTree.rotations = ''
+                AVLTree.rotation_type = ''
 
                 bst_root = bst_tree.insert(bst_root, number)
                 avl_root = avl_tree.insert(avl_root, number)
@@ -540,14 +544,14 @@ def process_test_case(test_case_number):
                 # Report AVL
                 avl_message += 'Insert: {}\n'.format(number)
                 avl_message += avl_tree.print_tree(avl_root)
-                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotations)
+                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotation_type)
                 avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n\n'
 
                 # Count insert and rotation operations
                 increment_operations(bst_operations, 'I')
                 increment_operations(avl_operations, 'I')
-                if AVLTree.rotations != '':
+                if AVLTree.rotation_type != '':
                     increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
         else:
@@ -560,11 +564,11 @@ def process_test_case(test_case_number):
 
         # Preform operations on trees
         if input_2:
+            AVLTree.rotations_count = 0
             for code in input_2:
                 action, number = code.split(' ')
                 number = int(number)
-                AVLTree.rotations = ''
-                AVLTree.rotations_count = 0
+                AVLTree.rotation_type = ''
 
                 if action not in operation_map.keys():
                     bst_message += 'Operation error! Wrong action {}, skipped\n'.format(action)
@@ -578,7 +582,8 @@ def process_test_case(test_case_number):
                     # Count operations
                     increment_operations(bst_operations, 'I')
                     increment_operations(avl_operations, 'I')
-                    increment_operations(avl_operations, 'R', AVLTree.rotations_count)
+                    if AVLTree.rotation_type != '':
+                        increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
                 if action == 'S':
                     bst_tree.search(bst_root, number)
@@ -591,7 +596,8 @@ def process_test_case(test_case_number):
                     avl_root = avl_tree.delete(avl_root, number)
                     increment_operations(bst_operations, 'D')
                     increment_operations(avl_operations, 'D')
-                    increment_operations(avl_operations, 'R', AVLTree.rotations_count)
+                    if AVLTree.rotation_type != '':
+                        increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
                 bst_message += '{0}: {1}\n'.format(operation_map[action], number)
                 bst_message += bst_tree.print_tree(bst_root)
@@ -600,7 +606,7 @@ def process_test_case(test_case_number):
 
                 avl_message += '{0}: {1}\n'.format(operation_map[action], number)
                 avl_message += avl_tree.print_tree(avl_root)
-                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotations)
+                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotation_type)
                 avl_message += 'Tree height: {}\n'.format(bst_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n'
 
@@ -619,7 +625,7 @@ def process_test_case(test_case_number):
         output_1.write(bst_message)
 
     # AVL report
-    print avl_message
+    # print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
 
@@ -658,6 +664,7 @@ def run_processing():
     print summary
     with open(summary_file_path, 'w') as output_1:
         output_1.write(summary)
+
 
 if __name__ == "__main__":
     run_processing()

@@ -31,3 +31,10 @@ Search: 30
 Rotation operations: 
 Tree height: 1
 ------------------------
+Delete: 10
+20_ 
+   \
+  30
+Rotation operations: 
+Tree height: 1
+------------------------
