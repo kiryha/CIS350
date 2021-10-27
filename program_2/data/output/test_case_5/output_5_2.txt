@@ -3,7 +3,7 @@ AVL Test Case 5: Unbalanced BST
 ### Building tree ###
 Insert: 1
 1
-Rotation operations: 
+Rotation operation: 
 Tree height: 0
 ------------------------
 
@@ -11,7 +11,7 @@ Insert: 2
 1 
  \
  2
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 
@@ -19,7 +19,7 @@ Insert: 3
  2 
 / \
 1 3
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 1
 ------------------------
 
@@ -29,7 +29,7 @@ Insert: 4
 1 3 
    \
    4
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 
@@ -39,7 +39,7 @@ Insert: 5
 1  4 
   / \
   3 5
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 
@@ -49,7 +49,7 @@ Insert: 6
  2  5 
 / \  \
 1 3  6
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 
@@ -59,7 +59,7 @@ Insert: 7
  2   6 
 / \ / \
 1 3 5 7
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 
@@ -71,7 +71,7 @@ Insert: 8
 1 3 5 7 
        \
        8
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 
@@ -83,7 +83,7 @@ Insert: 9
 1 3 5  8 
       / \
       7 9
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 3
 ------------------------
 
@@ -95,7 +95,7 @@ Insert: 10
 1 3  6  9_ 
     / \   \
     5 7  10
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 3
 ------------------------
 
@@ -107,7 +107,7 @@ Insert: 11
 1 3  6   10_ 
     / \ /   \
     5 7 9  11
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 3
 ------------------------
 
@@ -119,7 +119,7 @@ Insert: 12
  2   6  9  11_ 
 / \ / \       \
 1 3 5 7      12
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 3
 ------------------------
 
@@ -131,7 +131,7 @@ Insert: 13
  2   6  9    12_ 
 / \ / \     /   \
 1 3 5 7    11  13
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 3
 ------------------------
 
@@ -144,7 +144,7 @@ Delete: 1
 2   6  9    12_ 
  \ / \     /   \
  3 5 7    11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 Delete: 2
@@ -155,7 +155,7 @@ Delete: 2
 3  6  9    12_ 
   / \     /   \
   5 7    11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 Delete: 3
@@ -166,7 +166,7 @@ Delete: 3
 4  7 9    12_ 
  \       /   \
  5      11  13
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 3
 ------------------------
 Delete: 4
@@ -177,7 +177,7 @@ Delete: 4
 5 7 9    12_ 
         /   \
        11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 Delete: 5
@@ -188,7 +188,7 @@ Delete: 5
  7 9    12_ 
        /   \
       11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 Delete: 6
@@ -197,7 +197,7 @@ Delete: 6
  8     12_ 
 / \   /   \
 7 9  11  13
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 Delete: 7
@@ -206,7 +206,7 @@ Delete: 7
 8     12_ 
  \   /   \
  9  11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 Delete: 8
@@ -215,7 +215,7 @@ Delete: 8
 9    12_ 
     /   \
    11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 Delete: 9
@@ -224,31 +224,31 @@ Delete: 9
 10_   13
    \    
   11    
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 Delete: 10
   12_ 
  /   \
 11  13
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 Delete: 11
 12_ 
    \
   13
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 Delete: 12
 13
-Rotation operations: 
+Rotation operation: 
 Tree height: 0
 ------------------------
 Delete: 13
 >> Empty tree
-Rotation operations: 
+Rotation operation: 
 Tree height: -1
 ------------------------
 
@@ -260,9 +260,8 @@ Tree height: -1
                    BST         AVL
 
     Search           0           0
-    Insert          13          13
-    Delete          13          13
- Rotations           0          87
+    Insert         259         255
+    Delete          13         124
 
-     Total          26         113
+     Total         272         379
 

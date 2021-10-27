@@ -1266,10 +1266,9 @@ Tree height: 10
 
                    BST         AVL
 
-    Search           5           5
-    Insert          51          51
-    Delete           4           4
- Rotations           0         377
+    Search          31          33
+    Insert         930        1447
+    Delete          28          99
 
-     Total          60         437
+     Total         989        1579
 

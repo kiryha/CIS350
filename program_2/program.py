@@ -22,8 +22,8 @@ import os
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
-test_names_map = {1: 'Missing File',
-                  2: 'Empty File',
+test_names_map = {1: 'Missing Input 2',
+                  2: 'Empty Input 2',
                   3: 'Ideal Tree',
                   4: 'Random Searches',
                   5: 'Unbalanced BST',
@@ -36,7 +36,7 @@ test_names_map = {1: 'Missing File',
                   12: 'Basic RL',
                   13: 'Basic LR'}
 
-# test_names_map = {0: 'Test'}  # 10: 'Basic RR', 12: 'Basic RL'
+# test_names_map = {10: 'Basic RR', 12: 'Basic RL'}  # 10: 'Basic RR', 12: 'Basic RL'
 
 
 def build_summary_table(values):
@@ -70,7 +70,7 @@ def build_operation_table(test_case_name, values):
     """
 
     tree_names = ['BST', 'AVL']
-    operations = ['Search', 'Insert', 'Delete', 'Rotations']
+    operations = ['Search', 'Insert', 'Delete']
 
     sum_bst = sum(value[0] for value in values)
     sum_avl = sum(value[1] for value in values)
@@ -162,10 +162,16 @@ class Node:
 class BSTree:
     operations = 0
 
+    def __init__(self):
+        self.primitive_operations = 0
+
     def insert(self, root, data):
+
+        self.primitive_operations += 1
 
         if not root:
             return Node(data)
+
         elif data < root.data:
             root.left = self.insert(root.left, data)
         else:
@@ -177,6 +183,8 @@ class BSTree:
         return root
 
     def search(self, root, data):
+
+        self.primitive_operations += 1
 
         # Base Cases: root is null or data is present at root
         if root is None or root.data == data:
@@ -190,6 +198,8 @@ class BSTree:
         return self.search(root.left, data)
 
     def delete(self, root, data):
+
+        self.primitive_operations += 1
 
         # Base Case
         if root is None:
@@ -223,6 +233,8 @@ class BSTree:
         Get height of a tree
         """
 
+        self.primitive_operations += 1
+
         if not root:
             return 0
 
@@ -233,6 +245,7 @@ class BSTree:
         current = node
 
         while current.left is not None:
+            self.primitive_operations += 1
             current = current.left
 
         return current
@@ -257,9 +270,13 @@ class BSTree:
 
 class AVLTree:
     rotation_type = ''
-    rotations_count = 0
+
+    def __init__(self):
+        self.primitive_operations = 0
 
     def insert(self, root, data):
+
+        self.primitive_operations += 1
 
         # Perform BST
         if not root:
@@ -279,30 +296,28 @@ class AVLTree:
         # Left Left
         if balance > 1 and data < root.left.data:
             AVLTree.rotation_type += 'Left-Left'
-            AVLTree.rotations_count += 1
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and data > root.right.data:
             AVLTree.rotation_type += 'Right-Right'
-            AVLTree.rotations_count += 1
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and data > root.left.data:
             AVLTree.rotation_type += 'Left-Right'
-            AVLTree.rotations_count += 2
             return self.left_right(root)
 
         # Right Left
         if balance < -1 and data < root.right.data:
             AVLTree.rotation_type += 'Right-Left'
-            AVLTree.rotations_count += 2
             return self.right_left(root)
 
         return root
 
     def search(self, root, data):
+
+        self.primitive_operations += 1
 
         # Empty tree/ data in root
         if root is None or root.data == data:
@@ -317,6 +332,8 @@ class AVLTree:
             return self.search(root.left, data)
 
     def delete(self, root, data):
+
+        self.primitive_operations += 1
 
         # Perform BST delete
         if not root:
@@ -357,25 +374,21 @@ class AVLTree:
         # Left Left
         if balance > 1 and self.get_balance(root.left) >= 0:
             AVLTree.rotation_type += 'Left-Left'
-            AVLTree.rotations_count += 1
             return self.left_left(root)
 
         # Right Right
         if balance < -1 and self.get_balance(root.right) <= 0:
             AVLTree.rotation_type += 'Right-Right'
-            AVLTree.rotations_count += 1
             return self.right_right(root)
 
         # Left Right
         if balance > 1 and self.get_balance(root.left) < 0:
             AVLTree.rotation_type += 'Left-Right'
-            AVLTree.rotations_count += 2
             return self.left_right(root)
 
         # Right Left
         if balance < -1 and self.get_balance(root.right) > 0:
             AVLTree.rotation_type += 'Right-Left'
-            AVLTree.rotations_count += 2
             return self.right_left(root)
 
         return root
@@ -388,12 +401,17 @@ class AVLTree:
         current = node
 
         while current.left is not None:
+            self.primitive_operations += 1
             current = current.left
 
         return current
 
     def right_right(self, node_3):
-        """ Left rotation """
+        """
+        Left rotation
+        """
+
+        self.primitive_operations += 1
 
         node_2 = node_3.right
         temp = node_2.left
@@ -410,7 +428,11 @@ class AVLTree:
         return node_2
 
     def left_left(self, node_3):
-        """ Right rotation """
+        """
+        Right rotation
+        """
+
+        self.primitive_operations += 1
 
         node_2 = node_3.left
         temp = node_2.right
@@ -431,7 +453,10 @@ class AVLTree:
         Left + Right rotation
         """
 
+        self.primitive_operations += 1
+
         node.left = self.right_right(node.left)
+
         return self.left_left(node)
 
     def right_left(self, node):
@@ -439,13 +464,18 @@ class AVLTree:
         Right + Left rotation
         """
 
+        self.primitive_operations += 1
+
         node.right = self.left_left(node.right)
+
         return self.right_right(node)
 
     def get_height(self, root):
         """
         Return height of a tree
         """
+
+        self.primitive_operations += 1
 
         if not root:
             return 0
@@ -458,6 +488,7 @@ class AVLTree:
         """
 
         if not root:
+            self.primitive_operations += 1
             return 0
 
         return self.get_height(root.left) - self.get_height(root.right)
@@ -492,7 +523,7 @@ def process_test_case(test_case_number):
     bst_message = 'BST Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
     avl_message = 'AVL Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
     bst_operations = {'S': 0, 'I': 0, 'D': 0}
-    avl_operations = {'S': 0, 'I': 0, 'D': 0, 'R': 0}
+    avl_operations = {'S': 0, 'I': 0, 'D': 0}
 
     # Read inputs
     file_error = None
@@ -527,12 +558,13 @@ def process_test_case(test_case_number):
         if input_1:
             for number in input_1:
                 number = int(number)
-
-                # Insert
                 AVLTree.rotation_type = ''
 
+                # Insert
                 bst_root = bst_tree.insert(bst_root, number)
                 avl_root = avl_tree.insert(avl_root, number)
+                bst_operations['I'] = bst_tree.primitive_operations
+                avl_operations['I'] = avl_tree.primitive_operations
 
                 # Report BST
                 bst_message += 'Insert: {}\n'.format(number)
@@ -543,15 +575,10 @@ def process_test_case(test_case_number):
                 # Report AVL
                 avl_message += 'Insert: {}\n'.format(number)
                 avl_message += avl_tree.print_tree(avl_root)
-                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotation_type)
+                avl_message += 'Rotation operation: {}\n'.format(AVLTree.rotation_type)
                 avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n\n'
 
-                # Count insert and rotation operations
-                increment_operations(bst_operations, 'I')
-                increment_operations(avl_operations, 'I')
-                if AVLTree.rotation_type != '':
-                    increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
         else:
             # Record input 1 error
@@ -563,11 +590,13 @@ def process_test_case(test_case_number):
 
         # Preform operations on trees
         if input_2:
-            AVLTree.rotations_count = 0
+            # AVLTree.rotations_count = 0
             for code in input_2:
                 action, number = code.split(' ')
                 number = int(number)
                 AVLTree.rotation_type = ''
+                bst_tree.primitive_operations = 0
+                avl_tree.primitive_operations = 0
 
                 if action not in operation_map.keys():
                     bst_message += 'Operation error! Wrong action {}, skipped\n'.format(action)
@@ -575,28 +604,22 @@ def process_test_case(test_case_number):
                     continue
 
                 if action == 'I':
-                    # Add node
                     bst_root = bst_tree.insert(bst_root, number)
                     avl_root = avl_tree.insert(avl_root, number)
-                    # Count operations
-                    increment_operations(bst_operations, 'I')
-                    increment_operations(avl_operations, 'I')
-                    if AVLTree.rotation_type != '':
-                        increment_operations(avl_operations, 'R', AVLTree.rotations_count)
+                    bst_operations['I'] += bst_tree.primitive_operations
+                    avl_operations['I'] += avl_tree.primitive_operations
 
                 if action == 'S':
                     bst_tree.search(bst_root, number)
                     avl_tree.search(avl_root, number)
-                    increment_operations(bst_operations, 'S')
-                    increment_operations(avl_operations, 'S')
+                    bst_operations['S'] += bst_tree.primitive_operations
+                    avl_operations['S'] += avl_tree.primitive_operations
 
                 if action == 'D':
                     bst_root = bst_tree.delete(bst_root, number)
                     avl_root = avl_tree.delete(avl_root, number)
-                    increment_operations(bst_operations, 'D')
-                    increment_operations(avl_operations, 'D')
-                    if AVLTree.rotation_type != '':
-                        increment_operations(avl_operations, 'R', AVLTree.rotations_count)
+                    bst_operations['D'] += bst_tree.primitive_operations
+                    avl_operations['D'] += avl_tree.primitive_operations
 
                 bst_message += '{0}: {1}\n'.format(operation_map[action], number)
                 bst_message += bst_tree.print_tree(bst_root)
@@ -605,7 +628,7 @@ def process_test_case(test_case_number):
 
                 avl_message += '{0}: {1}\n'.format(operation_map[action], number)
                 avl_message += avl_tree.print_tree(avl_root)
-                avl_message += 'Rotation operations: {}\n'.format(AVLTree.rotation_type)
+                avl_message += 'Rotation operation: {}\n'.format(AVLTree.rotation_type)
                 avl_message += 'Tree height: {}\n'.format(bst_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n'
 
@@ -621,20 +644,19 @@ def process_test_case(test_case_number):
     # Operations report
     values = [[bst_operations['S'], avl_operations['S']],
               [bst_operations['I'], avl_operations['I']],
-              [bst_operations['D'], avl_operations['D']],
-              [0, avl_operations['R']]]
+              [bst_operations['D'], avl_operations['D']]]
 
     operations_message, sum_bst, sum_avl = build_operation_table(test_case_name, values)
 
     # BST report
-    print bst_message
+    # print bst_message
     with open(output_1_file_path, 'w') as output_1:
         output_1.write(bst_message)
         output_1.write('\n\n')
         output_1.write(operations_message)
 
     # AVL report
-    print avl_message
+    # print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
         output_2.write('\n\n')

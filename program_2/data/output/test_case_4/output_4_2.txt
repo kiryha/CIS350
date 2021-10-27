@@ -3,7 +3,7 @@ AVL Test Case 4: Random Searches
 ### Building tree ###
 Insert: 9
 9
-Rotation operations: 
+Rotation operation: 
 Tree height: 0
 ------------------------
 
@@ -11,7 +11,7 @@ Insert: 7
  9
 / 
 7 
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 
@@ -19,7 +19,7 @@ Insert: 14
  9_ 
 /  \
 7 14
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 
@@ -29,7 +29,7 @@ Insert: 25
 7 14_ 
      \
     25
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 
@@ -39,7 +39,7 @@ Insert: 2
  7 14_ 
 /     \
 2    25
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 
@@ -49,7 +49,7 @@ Insert: 23
  7   23_ 
 /   /   \
 2  14  25
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 2
 ------------------------
 
@@ -59,7 +59,7 @@ Insert: 4
  4    23_ 
 / \  /   \
 2 7 14  25
-Rotation operations: Left-Right
+Rotation operation: Left-Right
 Tree height: 2
 ------------------------
 
@@ -71,7 +71,7 @@ Insert: 18
 2 7 14_   25
        \    
       18    
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 
@@ -83,7 +83,7 @@ Insert: 10
 2 7   14_   25
      /   \    
     10  18    
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 
@@ -95,7 +95,7 @@ Insert: 27
 2 7   14_   25_ 
      /   \     \
     10  18    27
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 
@@ -107,7 +107,7 @@ Insert: 3
 2  7   14_   25_ 
  \    /   \     \
  3   10  18    27
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 
@@ -121,7 +121,7 @@ Insert: 22
  3   10  18_     27
             \      
            22      
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -135,7 +135,7 @@ Insert: 30
  3   10  18_   25  30
             \        
            22        
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 4
 ------------------------
 
@@ -149,7 +149,7 @@ Insert: 24
  3   10  18_     25  30
             \   /      
            22  24      
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -163,7 +163,7 @@ Insert: 26
  3   10  18_     25_   30
             \   /   \    
            22  24  26    
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -177,7 +177,7 @@ Insert: 21
  3   10    21_     25_   30
           /   \   /   \    
          18  22  24  26    
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 4
 ------------------------
 
@@ -191,7 +191,7 @@ Insert: 1
 1 3   10    21_     25_   30
            /   \   /   \    
           18  22  24  26    
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -205,7 +205,7 @@ Insert: 28
 1 3   10    21_     25_     30
            /   \   /   \   /  
           18  22  24  26  28  
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -219,7 +219,7 @@ Insert: 8
 1 3  8 10    21_     25_     30
             /   \   /   \   /  
            18  22  24  26  28  
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -233,7 +233,7 @@ Insert: 19
 1 3  8   14    21_     25_     30
         /     /   \   /   \   /  
        10    19  22  24  26  28  
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 4
 ------------------------
 
@@ -247,7 +247,7 @@ Insert: 16
 1 3  8   14_     21_     25_     30
         /   \   /   \   /   \   /  
        10  16  19  22  24  26  28  
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -261,7 +261,7 @@ Insert: 17
  2  7  10  16_   19  22    25_     30
 / \  \        \           /   \   /  
 1 3  8       17          24  26  28  
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 4
 ------------------------
 
@@ -275,7 +275,7 @@ Insert: 26
  2  7  10  16_     21_   24  26_     30
 / \  \        \   /   \         \   /  
 1 3  8       17  19  22        26  28  
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 4
 ------------------------
 
@@ -289,7 +289,7 @@ Insert: 12
  2  7  10_   16_     21_   24  26_     30
 / \  \    \     \   /   \         \   /  
 1 3  8   12    17  19  22        26  28  
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -303,7 +303,7 @@ Insert: 29
  2  7  10_   16_     21_   24  26_     29_ 
 / \  \    \     \   /   \         \   /   \
 1 3  8   12    17  19  22        26  28  30
-Rotation operations: Left-Right
+Rotation operation: Left-Right
 Tree height: 4
 ------------------------
 
@@ -317,7 +317,7 @@ Insert: 6
  2   7  10_   16_     21_   24  26_     29_ 
 / \ / \    \     \   /   \         \   /   \
 1 3 6 8   12    17  19  22        26  28  30
-Rotation operations: 
+Rotation operation: 
 Tree height: 4
 ------------------------
 
@@ -331,7 +331,7 @@ Insert: 10
  2   7    10_   16_     21_   24  26_     29_ 
 / \ / \  /   \     \   /   \         \   /   \
 1 3 6 8 10  12    17  19  22        26  28  30
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 4
 ------------------------
 
@@ -347,7 +347,7 @@ Insert: 5
 1 3  6 8 10  12    17  19  22        26  28  30
     /                                          
     5                                          
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -363,7 +363,7 @@ Insert: 15
 1 3  6 8 10  12  15  17  19  22        26  28  30
     /                                            
     5                                            
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -379,7 +379,7 @@ Insert: 20
 1 3  6 8 10  12  15  17    20  22  24    26  28  30
     /                                              
     5                                              
-Rotation operations: Left-Left
+Rotation operation: Left-Left
 Tree height: 5
 ------------------------
 
@@ -395,7 +395,7 @@ Insert: 26
 1 3  6 8 10  12  15  17    20  22  24    26_   28  30
     /                                       \        
     5                                      26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -411,7 +411,7 @@ Insert: 13
 1 3  6 8 10  12_   15  17    20  22  24    26_   28  30
     /           \                             \        
     5          13                            26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -427,7 +427,7 @@ Insert: 11
 1 3  6 8 10    12_   15  17    20  22  24    26_   28  30
     /         /   \                             \        
     5        11  13                            26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -443,7 +443,7 @@ Insert: 28
 1 3  6 8 10    12_   15  17    20  22  24    26_   28_   30
     /         /   \                             \     \    
     5        11  13                            26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -460,7 +460,7 @@ Search: 11
 1 3  6 8 10    12_   15  17    20  22  24    26_   28_   30
     /         /   \                             \     \    
     5        11  13                            26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 26
@@ -475,7 +475,7 @@ Search: 26
 1 3  6 8 10    12_   15  17    20  22  24    26_   28_   30
     /         /   \                             \     \    
     5        11  13                            26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 28
@@ -490,7 +490,7 @@ Search: 28
 1 3  6 8 10    12_   15  17    20  22  24    26_   28_   30
     /         /   \                             \     \    
     5        11  13                            26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 1
@@ -505,7 +505,7 @@ Search: 1
 1 3  6 8 10    12_   15  17    20  22  24    26_   28_   30
     /         /   \                             \     \    
     5        11  13                            26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 7
@@ -520,7 +520,7 @@ Search: 7
 1 3  6 8 10    12_   15  17    20  22  24    26_   28_   30
     /         /   \                             \     \    
     5        11  13                            26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Operation error! Wrong action Q, skipped
@@ -536,7 +536,7 @@ Insert: 17
 1 3  6 8 10    12_   15  17_     20  22  24    26_   28_   30
     /         /   \         \                     \     \    
     5        11  13        17                    26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 22
@@ -551,7 +551,7 @@ Delete: 22
 1 3  6 8 10    12_   15  17_     20    24    26_   28_   30
     /         /   \         \                   \     \    
     5        11  13        17                  26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 11
@@ -566,7 +566,7 @@ Search: 11
 1 3  6 8 10    12_   15  17_     20    24    26_   28_   30
     /         /   \         \                   \     \    
     5        11  13        17                  26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 16
@@ -581,7 +581,7 @@ Delete: 16
 1 3  6 8 10    12_   15  17    20    24    26_   28_   30
     /         /   \                           \     \    
     5        11  13                          26    28    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 28
@@ -596,7 +596,7 @@ Delete: 28
 1 3  6 8 10    12_   15  17    20    24    26_   28  30
     /         /   \                           \        
     5        11  13                          26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Insert: 15
@@ -611,7 +611,7 @@ Insert: 15
 1 3  6 8 10    12_   15_   17    20    24    26_   28  30
     /         /   \     \                       \        
     5        11  13    15                      26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 33
@@ -626,7 +626,7 @@ Delete: 33
 1 3  6 8 10    12_   15_   17    20    24    26_   28  30
     /         /   \     \                       \        
     5        11  13    15                      26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 29
@@ -641,7 +641,7 @@ Search: 29
 1 3  6 8 10    12_   15_   17    20    24    26_   28  30
     /         /   \     \                       \        
     5        11  13    15                      26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 17
@@ -656,7 +656,7 @@ Search: 17
 1 3  6 8 10    12_   15_   17    20    24    26_   28  30
     /         /   \     \                       \        
     5        11  13    15                      26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Operation error! Wrong action Z, skipped
@@ -672,7 +672,7 @@ Search: 11
 1 3  6 8 10    12_   15_   17    20    24    26_   28  30
     /         /   \     \                       \        
     5        11  13    15                      26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 17
@@ -687,7 +687,7 @@ Delete: 17
 1 3  6 8 10    12_   15  17    20    24    26_   28  30
     /         /   \                           \        
     5        11  13                          26        
-Rotation operations: Left-Right
+Rotation operation: Left-Right
 Tree height: 5
 ------------------------
 Insert: 17
@@ -702,7 +702,7 @@ Insert: 17
 1 3  6 8 10    12_   15  17_     20    24    26_   28  30
     /         /   \         \                   \        
     5        11  13        17                  26        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 25
@@ -717,7 +717,7 @@ Delete: 25
 1 3  6 8 10    12_   15  17_     20    24    26  28  30
     /         /   \         \                          
     5        11  13        17                          
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 16
@@ -732,7 +732,7 @@ Delete: 16
 1 3  6 8 10    12_   15  17_     20    24    26  28  30
     /         /   \         \                          
     5        11  13        17                          
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Insert: 33
@@ -747,7 +747,7 @@ Insert: 33
 1 3  6 8 10    12_   15  17_     20    24    26  28  30_ 
     /         /   \         \                           \
     5        11  13        17                          33
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 26
@@ -762,7 +762,7 @@ Delete: 26
 1 3  6 8 10    12_   15  17_     20    24  26  28    33
     /         /   \         \                          
     5        11  13        17                          
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 5
 ------------------------
 Search: 17
@@ -777,7 +777,7 @@ Search: 17
 1 3  6 8 10    12_   15  17_     20    24  26  28    33
     /         /   \         \                          
     5        11  13        17                          
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 16
@@ -792,7 +792,7 @@ Search: 16
 1 3  6 8 10    12_   15  17_     20    24  26  28    33
     /         /   \         \                          
     5        11  13        17                          
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 26
@@ -807,7 +807,7 @@ Delete: 26
 1 3  6 8 10    12_   15  17_     20    24    28    33
     /         /   \         \                        
     5        11  13        17                        
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 28
@@ -822,7 +822,7 @@ Delete: 28
 1 3  6 8 10    12_   15  17_     20    24        33
     /         /   \         \                      
     5        11  13        17                      
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 28
@@ -837,7 +837,7 @@ Search: 28
 1 3  6 8 10    12_   15  17_     20    24        33
     /         /   \         \                      
     5        11  13        17                      
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Search: 22
@@ -852,7 +852,7 @@ Search: 22
 1 3  6 8 10    12_   15  17_     20    24        33
     /         /   \         \                      
     5        11  13        17                      
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 Delete: 26
@@ -867,7 +867,7 @@ Delete: 26
 1 3  6 8 10    12_   15  17_     20    24        
     /         /   \         \                    
     5        11  13        17                    
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 5
 ------------------------
 Search: 7
@@ -882,7 +882,7 @@ Search: 7
 1 3  6 8 10    12_   15  17_     20    24        
     /         /   \         \                    
     5        11  13        17                    
-Rotation operations: 
+Rotation operation: 
 Tree height: 5
 ------------------------
 
@@ -893,10 +893,9 @@ Tree height: 5
 
                    BST         AVL
 
-    Search          14          14
-    Insert          38          38
-    Delete          11          11
- Rotations           0         110
+    Search          78          69
+    Insert         563         899
+    Delete          70         260
 
-     Total          63         173
+     Total         711        1228
 

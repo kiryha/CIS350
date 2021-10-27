@@ -3,7 +3,7 @@ AVL Test Case 9: Collisions
 ### Building tree ###
 Insert: 5
 5
-Rotation operations: 
+Rotation operation: 
 Tree height: 0
 ------------------------
 
@@ -11,7 +11,7 @@ Insert: 10
 5_ 
   \
  10
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 
@@ -19,7 +19,7 @@ Insert: 15
  10_ 
 /   \
 5  15
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 1
 ------------------------
 
@@ -30,7 +30,7 @@ Insert: 15
 5  15_ 
       \
      15
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 
@@ -42,9 +42,8 @@ Tree height: 2
                    BST         AVL
 
     Search           0           0
-    Insert           4           4
+    Insert          24          36
     Delete           0           0
- Rotations           0           2
 
-     Total           4           6
+     Total          24          36
 

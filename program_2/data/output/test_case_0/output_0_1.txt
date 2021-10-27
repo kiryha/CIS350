@@ -1,4 +1,4 @@
-BST Test Case 0: Tests
+BST Test Case 0: Test
 
 ### Building tree ###
 Insert: 2
@@ -22,3 +22,18 @@ Insert: 4
   4
 Tree height: 2
 ------------------------
+
+
+             Operations count for:
+                              Test
+
+
+                   BST         AVL
+
+    Search           0           0
+    Insert           6           0
+    Delete           0           0
+ Rotations           0           0
+
+     Total           6           0
+

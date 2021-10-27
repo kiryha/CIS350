@@ -3,18 +3,18 @@
 
       Test #              Test Title         BST         AVL
 
-           1            Missing File           0           0
-           2              Empty File           9          28
-           3              Ideal Tree           7           7
-           4         Random Searches          63         173
-           5          Unbalanced BST          26         113
-           6         Perform Inserts          60         437
-           7         Perform Deletes          37         219
-           8        Perform Searches          42         202
-           9              Collisions           4           6
-          10                Basic RR           4           5
-          11                Basic LL           4           5
-          12                Basic RL           5           7
-          13                Basic LR           4           6
+           1         Missing Input 2           0           0
+           2           Empty Input 2         113         153
+           3              Ideal Tree          39          59
+           4         Random Searches         711        1228
+           5          Unbalanced BST         272         379
+           6         Perform Inserts         989        1579
+           7         Perform Deletes         444         758
+           8        Perform Searches         464         768
+           9              Collisions          24          36
+          10                Basic RR          14          25
+          11                Basic LL          14          25
+          12                Basic RL          14          31
+          13                Basic LR          14          31
 
-                 Total for all cases         265        1208
+                 Total for all cases        3112        5072

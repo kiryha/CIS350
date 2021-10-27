@@ -1,10 +1,10 @@
-BST Test Case 1: Missing File
+BST Test Case 1: Missing Input 2
 
 File read error! Input 2 is missing.
 
 
              Operations count for:
-                      Missing File
+                   Missing Input 2
 
 
                    BST         AVL
@@ -12,7 +12,6 @@ File read error! Input 2 is missing.
     Search           0           0
     Insert           0           0
     Delete           0           0
- Rotations           0           0
 
      Total           0           0
 

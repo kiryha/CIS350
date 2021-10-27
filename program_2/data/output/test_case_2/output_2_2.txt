@@ -1,9 +1,9 @@
-AVL Test Case 2: Empty File
+AVL Test Case 2: Empty Input 2
 
 ### Building tree ###
 Insert: 10
 10
-Rotation operations: 
+Rotation operation: 
 Tree height: 0
 ------------------------
 
@@ -11,7 +11,7 @@ Insert: 20
 10_ 
    \
   20
-Rotation operations: 
+Rotation operation: 
 Tree height: 1
 ------------------------
 
@@ -19,7 +19,7 @@ Insert: 30
   20_ 
  /   \
 10  30
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 1
 ------------------------
 
@@ -29,7 +29,7 @@ Insert: 50
 10  30_ 
        \
       50
-Rotation operations: 
+Rotation operation: 
 Tree height: 2
 ------------------------
 
@@ -39,7 +39,7 @@ Insert: 40
 10    40_ 
      /   \
     30  50
-Rotation operations: Right-Left
+Rotation operation: Right-Left
 Tree height: 2
 ------------------------
 
@@ -49,7 +49,7 @@ Insert: 60
   20_   50_ 
  /   \     \
 10  30    60
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 
@@ -59,7 +59,7 @@ Insert: 90
   20_     60_ 
  /   \   /   \
 10  30  50  90
-Rotation operations: Right-Right
+Rotation operation: Right-Right
 Tree height: 2
 ------------------------
 
@@ -71,7 +71,7 @@ Insert: 80
 10  30  50    90
              /  
             80  
-Rotation operations: 
+Rotation operation: 
 Tree height: 3
 ------------------------
 
@@ -83,7 +83,7 @@ Insert: 70
 10  30  50    80_ 
              /   \
             70  90
-Rotation operations: Left-Left
+Rotation operation: Left-Left
 Tree height: 3
 ------------------------
 
@@ -92,15 +92,14 @@ Data error! Input 2 is empty.
 
 
              Operations count for:
-                        Empty File
+                     Empty Input 2
 
 
                    BST         AVL
 
     Search           0           0
-    Insert           9           9
+    Insert         113         153
     Delete           0           0
- Rotations           0          19
 
-     Total           9          28
+     Total         113         153
 

@@ -23,20 +23,7 @@ Tree height: 2
 ------------------------
 
 ### Operations ###
-Search: 30
-10___ 
-     \
-    30
-   /  
-  20  
-Tree height: 2
-------------------------
-Delete: 10
-  30
- /  
-20  
-Tree height: 1
-------------------------
+Data error! Input 2 is empty.
 
 
              Operations count for:
@@ -45,10 +32,9 @@ Tree height: 1
 
                    BST         AVL
 
-    Search           1           1
-    Insert           3           3
-    Delete           1           1
- Rotations           0           2
+    Search           0           0
+    Insert          14          31
+    Delete           0           0
 
-     Total           5           7
+     Total          14          31
 
