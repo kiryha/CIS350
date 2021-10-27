@@ -1,0 +1,6 @@
+                                    Summary Operations Count
+
+      Test #              Test Title         BST         AVL
+           0                   Tests           4           5
+
+                 Total for all cases           4           5

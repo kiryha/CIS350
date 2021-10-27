@@ -22,26 +22,82 @@ import os
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
-test_names_map = {'0': 'Tests',
-                  '1': 'Missing File',
-                  '2': 'Empty File',
-                  '3': 'Ideal Tree',
-                  '4': 'Random Searches',
-                  '5': 'Unbalanced BST',
-                  '6': 'Perform Inserts',
-                  '7': 'Perform Deletes',
-                  '8': 'Perform Searches',
-                  '9': 'Collisions',
-                  '10': 'Basic RR',
-                  '11': 'Basic LL',
-                  '12': 'Basic RL',
-                  '13': 'Basic LR'}
+test_names_map = {0: 'Tests',
+                  1: 'Missing File',
+                  2: 'Empty File',
+                  3: 'Ideal Tree',
+                  4: 'Random Searches',
+                  5: 'Unbalanced BST',
+                  6: 'Perform Inserts',
+                  7: 'Perform Deletes',
+                  8: 'Perform Searches',
+                  9: 'Collisions',
+                  10: 'Basic RR',
+                  11: 'Basic LL',
+                  12: 'Basic RL',
+                  13: 'Basic LR'}
+
+test_names_map = {0: 'Tests'}
 
 
-def build_strings(node):
+def build_summary_table(values):
+    """
+    Build a string for operations count
+    values = [ [ test case #, name, sum bst, sum avl ], ... ]
+    """
+
+    coulumns = ['Test #', 'Test Title', 'BST', 'AVL']
+    sum_bst = sum(value[2] for value in values)
+    sum_avl = sum(value[3] for value in values)
+
+    message = '{0:>60}\n\n'.format('Summary Operations Count')
+
+    row = "{}{:>12}{:>24}{:>12}{:>12}"
+    row += '\n'
+    message += row.format('', *coulumns)
+
+    for index, value in enumerate(values):
+        message += row.format('', *value)
+
+    message += '\n'
+    message += '{:>12}{:>24}{:>12}{:>12}'.format('', 'Total for all cases', sum_bst, sum_avl)
+
+    return message
+
+
+def build_operation_table(test_case_name, values):
+    """
+    Build a string for operations count
+    """
+
+    tree_names = ['BST', 'AVL']
+    operations = ['Search', 'Insert', 'Delete', 'Rotations']
+
+    sum_bst = sum(value[0] for value in values)
+    sum_avl = sum(value[1] for value in values)
+
+    message = '{0:>34}\n'.format('Operations count for:')
+    message += '{0:>34}\n\n'.format(test_case_name)
+
+    row = "{:>10}{:>12}{:>12}"
+    row += '\n'
+    message += row.format('', *tree_names)
+
+    for index, value in enumerate(values):
+        message += row.format(operations[index], *value)
+
+    message += '\n'
+    message += '{:>10}{:>12}{:>12}'.format('Total', sum_bst, sum_avl)
+    message += '\n\n'
+
+    return message, sum_bst, sum_avl
+
+
+def build_tree_structure(node):
     """
     Build a string that represents a tree structure
-    Returns list of strings, width, height, and horizontal coordinate of the root for printing tree
+    :param node: tree node
+    :return: string, width, height, and horizontal coordinate of the root for printing tree
     """
 
     # No child
@@ -54,7 +110,7 @@ def build_strings(node):
 
     # Only left child
     if node.right is None:
-        lines, n, p, x = build_strings(node.left)
+        lines, n, p, x = build_tree_structure(node.left)
         s = '{}'.format(node.data)
         u = len(s)
         first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
@@ -64,7 +120,7 @@ def build_strings(node):
 
     # Only right child
     if node.left is None:
-        lines, n, p, x = build_strings(node.right)
+        lines, n, p, x = build_tree_structure(node.right)
         s = '{}'.format(node.data)
         u = len(s)
         first_line = s + x * '_' + (n - x) * ' '
@@ -73,8 +129,8 @@ def build_strings(node):
         return [first_line, second_line] + shifted_lines, n + u, p + 2, u // 2
 
     # Two children
-    left, n, p, x = build_strings(node.left)
-    right, m, q, y = build_strings(node.right)
+    left, n, p, x = build_tree_structure(node.left)
+    right, m, q, y = build_tree_structure(node.right)
     s = '{}'.format(node.data)
     u = len(s)
     first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
@@ -185,7 +241,7 @@ class BSTree:
         if not root:
             return '>> Empty tree\n'
 
-        lines, a, b, c = build_strings(root)
+        lines, a, b, c = build_tree_structure(root)
         for line in lines:
             # print(line)
             string += '{0}\n'.format(line)
@@ -207,12 +263,13 @@ class AVLTree:
         else:
             root.right = self.insert(root.right, data)
 
-        # Update the height of the parent nodes
+        # Update parent height
         root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
-        # Get the balance factor
+        # Get balance
         balance = self.get_balance(root)
 
+        # Perform rotations
         # Left Left
         if balance > 1 and data < root.left.data:
             AVLTree.rotations += 'Left-Left'
@@ -241,29 +298,33 @@ class AVLTree:
 
     def search(self, root, data):
 
-        # Base Cases: root is null or data is present at root
+        # Empty tree/ data in root
         if root is None or root.data == data:
             return root
 
-        # Key is greater than root's data
+        # Search value > current node data
         if root.data < data:
             return self.search(root.right, data)
 
-        # Key is smaller than root's data
-        return self.search(root.left, data)
+        # Search value < current node data
+        else:
+            return self.search(root.left, data)
 
     def delete(self, root, data):
 
-        # Step 1 - Perform standard BST delete
+        # Perform BST delete
         if not root:
             return root
 
+        # Delete value < current node data
         elif data < root.data:
             root.left = self.delete(root.left, data)
 
+        # Delete value > current node data
         elif data > root.data:
             root.right = self.delete(root.right, data)
 
+        # Get and delete node if exists
         else:
             if root.left is None:
                 temp = root.right
@@ -280,12 +341,13 @@ class AVLTree:
         if root is None:
             return root
 
-        # Step 2 - Update the height of the parent node
+        # Update parent height
         root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
-        # Step 3 - Get the balance factor
+        # Get balance
         balance = self.get_balance(root)
 
+        # Perform rotations
         # Left Left
         if balance > 1 and self.get_balance(root.left) >= 0:
             AVLTree.rotations += 'Left-Left'
@@ -374,6 +436,7 @@ class AVLTree:
         """
         Return height of a tree
         """
+
         if not root:
             return 0
 
@@ -399,7 +462,7 @@ class AVLTree:
         if not root:
             return '>> Empty tree\n'
 
-        lines, a, b, c = build_strings(root)
+        lines, a, b, c = build_tree_structure(root)
         for line in lines:
             string += '{0}\n'.format(line)
 
@@ -416,22 +479,18 @@ def increment_operations(operations, action, value=1):
 
 def process_test_case(test_case_number):
 
-    # Manually provided test cases
-    # test_case_number = '0'
+    # Pre-defined test cases
     test_case_name = test_names_map[test_case_number]
     input_1_file_path = '{0}/data/input/test_case_{1}/input_{1}_1.txt'.format(program_root, test_case_number)
     input_2_file_path = '{0}/data/input/test_case_{1}/input_{1}_2.txt'.format(program_root, test_case_number)
     output_1_file_path = '{0}/data/output/test_case_{1}/output_{1}_1.txt'.format(program_root, test_case_number)
     output_2_file_path = '{0}/data/output/test_case_{1}/output_{1}_2.txt'.format(program_root, test_case_number)
-    output_3_file_path = '{0}/data/output/summary_output.txt'.format(program_root)
 
     # Prepare reports
     bst_message = 'BST Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
     avl_message = 'AVL Test Case {0}: {1}\n\n'.format(test_case_number, test_case_name)
     bst_operations = {'S': 0, 'I': 0, 'D': 0}
-    bst_sum_operations = 0
     avl_operations = {'S': 0, 'I': 0, 'D': 0, 'R': 0}
-    avl_sum_operations = 0
 
     # Read inputs
     file_error = None
@@ -563,8 +622,16 @@ def process_test_case(test_case_number):
         output_2.write(avl_message)
 
     # Operations report
-    print bst_operations['I'], bst_operations['S'], bst_operations['D']
-    print avl_operations['I'], avl_operations['S'], avl_operations['D'], avl_operations['R']
+    values = [[bst_operations['S'], avl_operations['S']],
+              [bst_operations['I'], avl_operations['I']],
+              [bst_operations['D'], avl_operations['D']],
+              [0, avl_operations['R']]]
+
+    operations_message, sum_bst, sum_avl = build_operation_table(test_case_name, values)
+
+    print operations_message
+
+    return sum_bst, sum_avl
 
 
 def run_processing():
@@ -573,10 +640,22 @@ def run_processing():
     Run trees and reports generation for test cases from test_names_map dictionary.
     """
 
-    # for test_case_number in test_names_map.keys():
-    for test_case_number in range(1):
-        process_test_case(str(test_case_number))
+    # Summary operations data
+    summary_file_path = '{0}/data/output/summary_output.txt'.format(program_root)
+    values = []
 
+    # Iterate over all test cases
+    for test_case_number in test_names_map.keys():
+
+        sum_bst, sum_avl = process_test_case(test_case_number)
+        value = [test_case_number, test_names_map[test_case_number], sum_bst, sum_avl]
+        values.append(value)
+
+    # Output summary
+    summary = build_summary_table(values)
+    print summary
+    with open(summary_file_path, 'w') as output_1:
+        output_1.write(summary)
 
 if __name__ == "__main__":
     run_processing()
