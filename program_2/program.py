@@ -22,8 +22,7 @@ import os
 # Common variables
 program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
-test_names_map = {0: 'Tests',
-                  1: 'Missing File',
+test_names_map = {1: 'Missing File',
                   2: 'Empty File',
                   3: 'Ideal Tree',
                   4: 'Random Searches',
@@ -37,7 +36,7 @@ test_names_map = {0: 'Tests',
                   12: 'Basic RL',
                   13: 'Basic LR'}
 
-test_names_map = {0: 'Test'}  # 10: 'Basic RR', 12: 'Basic RL'
+# test_names_map = {0: 'Test'}  # 10: 'Basic RR', 12: 'Basic RL'
 
 
 def build_summary_table(values):

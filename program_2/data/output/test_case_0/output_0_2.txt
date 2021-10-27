@@ -1,4 +1,4 @@
-AVL Test Case 0: Test
+AVL Test Case 0: Tests
 
 ### Building tree ###
 Insert: 2

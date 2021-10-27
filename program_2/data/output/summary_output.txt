@@ -1,6 +1,18 @@
                                     Summary Operations Count
 
       Test #              Test Title         BST         AVL
-           0                    Test           3           4
+           1            Missing File           0           0
+           2              Empty File           9          28
+           3              Ideal Tree           7           7
+           4         Random Searches          63         173
+           5          Unbalanced BST          26         113
+           6         Perform Inserts          60         437
+           7         Perform Deletes          37         219
+           8        Perform Searches          42         202
+           9              Collisions           4           6
+          10                Basic RR           4           5
+          11                Basic LL           4           5
+          12                Basic RL           5           7
+          13                Basic LR           4           6
 
-                 Total for all cases           3           4
+                 Total for all cases         265        1208

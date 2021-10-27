@@ -1,4 +1,4 @@
-BST Test Case 0: Test
+BST Test Case 0: Tests
 
 ### Building tree ###
 Insert: 2
