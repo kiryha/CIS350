@@ -407,17 +407,3 @@ Delete: 13
 >> Empty tree
 Tree height: -1
 ------------------------
-
-
-             Operations count for:
-                    Unbalanced BST
-
-
-                   BST         AVL
-
-    Search           0           0
-    Insert         259         255
-    Delete          13         124
-
-     Total         272         379
-

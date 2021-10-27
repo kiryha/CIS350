@@ -1072,17 +1072,3 @@ Search: 7
                        15        20              
 Tree height: 7
 ------------------------
-
-
-             Operations count for:
-                   Random Searches
-
-
-                   BST         AVL
-
-    Search          78          69
-    Insert         563         899
-    Delete          70         260
-
-     Total         711        1228
-

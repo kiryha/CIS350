@@ -652,15 +652,11 @@ def process_test_case(test_case_number):
     # print bst_message
     with open(output_1_file_path, 'w') as output_1:
         output_1.write(bst_message)
-        output_1.write('\n\n')
-        output_1.write(operations_message)
 
     # AVL report
     # print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
-        output_2.write('\n\n')
-        output_2.write(operations_message)
 
     print operations_message
 

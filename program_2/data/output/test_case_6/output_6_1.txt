@@ -1258,17 +1258,3 @@ Insert: 47
                     24                      47                                                    
 Tree height: 10
 ------------------------
-
-
-             Operations count for:
-                   Perform Inserts
-
-
-                   BST         AVL
-
-    Search          31          33
-    Insert         930        1447
-    Delete          28          99
-
-     Total         989        1579
-

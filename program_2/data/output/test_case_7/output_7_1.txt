@@ -658,17 +658,3 @@ Delete: 7
                      500
 Tree height: 10
 ------------------------
-
-
-             Operations count for:
-                   Perform Deletes
-
-
-                   BST         AVL
-
-    Search          13           9
-    Insert         369         530
-    Delete          62         219
-
-     Total         444         758
-

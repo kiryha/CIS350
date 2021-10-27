@@ -542,17 +542,3 @@ Delete: 347
 Rotation operation: 
 Tree height: 5
 ------------------------
-
-
-             Operations count for:
-                  Perform Searches
-
-
-                   BST         AVL
-
-    Search          57          50
-    Insert         396         675
-    Delete          11          43
-
-     Total         464         768
-

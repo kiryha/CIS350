@@ -60,17 +60,3 @@ Insert: 7
 Rotation operation: 
 Tree height: 2
 ------------------------
-
-
-             Operations count for:
-                        Ideal Tree
-
-
-                   BST         AVL
-
-    Search           0           0
-    Insert          39          59
-    Delete           0           0
-
-     Total          39          59
-
