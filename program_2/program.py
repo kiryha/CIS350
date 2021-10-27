@@ -37,7 +37,7 @@ test_names_map = {0: 'Tests',
                   12: 'Basic RL',
                   13: 'Basic LR'}
 
-test_names_map = {0: 'Tests'}
+test_names_map = {10: 'Basic RR', 12: 'Basic RL'}
 
 
 def build_summary_table(values):
@@ -144,6 +144,14 @@ def build_tree_structure(node):
     return lines, n + m + u, max(p, q) + 2, n + u // 2
 
 
+def increment_operations(operations, action, value=1):
+    """
+    Count insert, delete and search operations on BST and AVL trees
+    """
+
+    operations[action] = operations[action] + value
+
+
 class Node:
     def __init__(self, data=None):
         self.data = data
@@ -195,15 +203,14 @@ class BSTree:
             root.right = self.delete(root.right, data)
 
         else:
+
             # Node with only one child or no child
             if root.left is None:
                 temp = root.right
-                # root = None
                 return temp
 
             elif root.right is None:
                 temp = root.left
-                # root = None
                 return temp
 
             temp = self.min_value_node(root.right)
@@ -469,14 +476,6 @@ class AVLTree:
         return string
 
 
-def increment_operations(operations, action, value=1):
-    """
-    Count insert, delete and search operations on BST and AVL trees
-    """
-
-    operations[action] = operations[action] + value
-
-
 def process_test_case(test_case_number):
 
     # Pre-defined test cases
@@ -545,9 +544,11 @@ def process_test_case(test_case_number):
                 avl_message += 'Tree height: {}\n'.format(avl_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n\n'
 
-                # Count insert operations
+                # Count insert and rotation operations
                 increment_operations(bst_operations, 'I')
                 increment_operations(avl_operations, 'I')
+                if AVLTree.rotations != '':
+                    increment_operations(avl_operations, 'R', AVLTree.rotations_count)
 
         else:
             # Record input 1 error
@@ -563,6 +564,7 @@ def process_test_case(test_case_number):
                 action, number = code.split(' ')
                 number = int(number)
                 AVLTree.rotations = ''
+                AVLTree.rotations_count = 0
 
                 if action not in operation_map.keys():
                     bst_message += 'Operation error! Wrong action {}, skipped\n'.format(action)
@@ -617,7 +619,7 @@ def process_test_case(test_case_number):
         output_1.write(bst_message)
 
     # AVL report
-    # print avl_message
+    print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
 

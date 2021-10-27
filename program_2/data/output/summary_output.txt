@@ -1,6 +1,7 @@
                                     Summary Operations Count
 
       Test #              Test Title         BST         AVL
-           0                   Tests           4           5
+          10                Basic RR           4           5
+          12                Basic RL           4           6
 
-                 Total for all cases           4           5
+                 Total for all cases           8          11

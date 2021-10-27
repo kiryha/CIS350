@@ -1,4 +1,4 @@
-AVL Test Case 0: Tests
+AVL Test Case 0: R R
 
 ### Building tree ###
 Insert: 4
@@ -28,5 +28,12 @@ Insert: 6
 / \
 4 6
 Rotation operations: Right-Right
+Tree height: 1
+------------------------
+Delete: 63
+ 5 
+/ \
+4 6
+Rotation operations: 
 Tree height: 1
 ------------------------

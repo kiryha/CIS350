@@ -1,4 +1,4 @@
-BST Test Case 0: Tests
+BST Test Case 0: R R
 
 ### Building tree ###
 Insert: 4
@@ -21,6 +21,14 @@ Search: 3
 Tree height: 1
 ------------------------
 Insert: 6
+4  
+ \ 
+ 5 
+  \
+  6
+Tree height: 2
+------------------------
+Delete: 63
 4  
  \ 
  5 
