@@ -177,15 +177,12 @@ class BSTree:
 
         self.primitive_operations += 1
 
-        # Base Cases: root is null or data is present at root
         if root is None or root.data == data:
             return root
 
-        # Key is greater than root's data
         if root.data < data:
             return self.search(root.right, data)
 
-        # Key is smaller than root's data
         return self.search(root.left, data)
 
     def delete(self, root, data):
