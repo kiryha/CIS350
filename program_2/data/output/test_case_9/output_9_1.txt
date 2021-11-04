@@ -1,35 +1,47 @@
-BST Test Case 9: Collisions
+BST Test Case 9: Basic Collisions
 
 ### Building tree ###
-Insert: 5
-5
+Insert: 1
+1
 Tree height: 0
 ------------------------
 
-Insert: 10
-5_ 
-  \
- 10
+Insert: 2
+1 
+ \
+ 2
 Tree height: 1
 ------------------------
 
-Insert: 15
-5_   
-  \  
- 10_ 
-    \
-   15
+Insert: 3
+1  
+ \ 
+ 2 
+  \
+  3
 Tree height: 2
 ------------------------
 
 ### Operations ###
-Insert: 15
-5_     
-  \    
- 10_   
-    \  
-   15_ 
+Insert: 2
+1__    
+   \   
+ 2 (2) 
       \
-     15
-Tree height: 3
+      3
+Tree height: 2
+------------------------
+Delete: 2
+1  
+ \ 
+ 2 
+  \
+  3
+Tree height: 2
+------------------------
+Delete: 2
+1 
+ \
+ 3
+Tree height: 2
 ------------------------

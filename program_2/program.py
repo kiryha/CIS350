@@ -24,19 +24,19 @@ program_root = os.path.dirname(os.path.abspath(__file__))
 operation_map = {'I': 'Insert', 'S': 'Search', 'D': 'Delete'}
 test_names_map = {1: 'Missing Input 2',
                   2: 'Empty Input 2',
-                  3: 'Ideal Tree',
+                  3: 'Basic Ideal Tree',
                   4: 'Random Searches',
                   5: 'Unbalanced BST',
                   6: 'Perform Inserts',
                   7: 'Perform Deletes',
                   8: 'Perform Searches',
-                  9: 'Collisions',
+                  9: 'Basic Collisions',
                   10: 'Basic RR',
                   11: 'Basic LL',
                   12: 'Basic RL',
                   13: 'Basic LR'}
 
-test_names_map = {9: 'Collisions'}  # 10: 'Basic RR', 12: 'Basic RL'
+# test_names_map = {5: 'temp test'}  # Selective test case
 
 
 class Node:
@@ -45,7 +45,7 @@ class Node:
         self.left = None
         self.right = None
         self.height = 1
-        self.duplicates = 0
+        self.duplicates = 1
 
 
 class BSTree:
@@ -54,11 +54,17 @@ class BSTree:
         self.primitive_operations = 0
 
     def insert(self, root, data):
+        """
+        Insert node to the tree. If the value exist, resister duplicate
+        """
 
         self.primitive_operations += 1
 
         if not root:
             return Node(data)
+
+        elif data == root.data:
+            root.duplicates += 1
 
         elif data < root.data:
             root.left = self.insert(root.left, data)
@@ -71,6 +77,9 @@ class BSTree:
         return root
 
     def search(self, root, data):
+        """
+        Search for data in the tree. Return node with data if found
+        """
 
         self.primitive_operations += 1
 
@@ -83,10 +92,12 @@ class BSTree:
         return self.search(root.left, data)
 
     def delete(self, root, data):
+        """
+        Delete node from the tree. If data has duplicates, reduce number of duplicates
+        """
 
         self.primitive_operations += 1
 
-        # Base Case
         if root is None:
             return root
 
@@ -98,18 +109,26 @@ class BSTree:
 
         else:
 
-            # Node with only one child or no child
             if root.left is None:
-                temp = root.right
-                return temp
+                if root.duplicates > 1:
+                    root.duplicates -= 1
+                    return root
+                else:
+                    return root.right
 
             elif root.right is None:
-                temp = root.left
-                return temp
+                if root.duplicates > 1:
+                    root.duplicates -= 1
+                    return root
+                else:
+                    return root.left
 
-            temp = self.min_value_node(root.right)
-            root.data = temp.data
-            root.right = self.delete(root.right, temp.data)
+            if root.duplicates > 1:
+                root.duplicates -= 1
+            else:
+                temp = self.min_value_node(root.right)
+                root.data = temp.data
+                root.right = self.delete(root.right, temp.data)
 
         return root
 
@@ -162,18 +181,26 @@ class AVLTree:
         self.primitive_operations = 0
 
     def insert(self, root, data):
+        """
+        Insert node to the tree. If the value exist, resister duplicate
+        """
 
         self.primitive_operations += 1
 
         # Perform BST
         if not root:
             return Node(data)
+
+        elif data == root.data:
+            root.duplicates += 1
+
         elif data < root.data:
             root.left = self.insert(root.left, data)
+
         else:
             root.right = self.insert(root.right, data)
 
-        # Update parent height
+        # Update the height of the parent nodes
         root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
         # Get balance
@@ -203,6 +230,9 @@ class AVLTree:
         return root
 
     def search(self, root, data):
+        """
+        Search for data in the tree. Return node with data if found
+        """
 
         self.primitive_operations += 1
 
@@ -219,6 +249,9 @@ class AVLTree:
             return self.search(root.left, data)
 
     def delete(self, root, data):
+        """
+        Delete node from the tree. If data has duplicates, reduce number of duplicates
+        """
 
         self.primitive_operations += 1
 
@@ -237,16 +270,25 @@ class AVLTree:
         # Get and delete node if exists
         else:
             if root.left is None:
-                temp = root.right
-                return temp
+                if root.duplicates > 1:
+                    root.duplicates -= 1
+                    return root
+                else:
+                    return root.right
 
             elif root.right is None:
-                temp = root.left
-                return temp
+                if root.duplicates > 1:
+                    root.duplicates -= 1
+                    return root
+                else:
+                    return root.left
 
-            temp = self.min_value_node(root.right)
-            root.data = temp.data
-            root.right = self.delete(root.right, temp.data)
+            if root.duplicates > 1:
+                root.duplicates -= 1
+            else:
+                temp = self.min_value_node(root.right)
+                root.data = temp.data
+                root.right = self.delete(root.right, temp.data)
 
         if root is None:
             return root
@@ -457,51 +499,87 @@ def build_tree_structure(node):
     :return: string, width, height, and horizontal coordinate of the root for printing tree
     """
 
+    duplicate_string = '{0} ({1})'
+    single_sting = '{0}'
+
     # No child
     if node.right is None and node.left is None:
-        line = '{}'.format(node.data)
+
+        if node.duplicates > 1:
+            line = duplicate_string.format(node.data, node.duplicates)
+        else:
+            line = single_sting.format(node.data)
+
         width = len(line)
         height = 1
         middle = width // 2
+
         return [line], width, height, middle
 
     # Only left child
     if node.right is None:
         lines, n, p, x = build_tree_structure(node.left)
-        s = '{}'.format(node.data)
+
+        if node.duplicates > 1:
+            s = duplicate_string.format(node.data, node.duplicates)
+        else:
+            s = single_sting.format(node.data)
+
         u = len(s)
         first_line = (x+1)*' '+(n-x-1)*'_'+s
         second_line = x*' '+'/'+(n-x-1+u)*' '
         shifted_lines = [line+u*' ' for line in lines]
+
         return [first_line, second_line] + shifted_lines, n+u, p+2, n+u//2
 
     # Only right child
     if node.left is None:
         lines, n, p, x = build_tree_structure(node.right)
-        s = '{}'.format(node.data)
+
+        if node.duplicates > 1:
+            s = duplicate_string.format(node.data, node.duplicates)
+        else:
+            s = single_sting.format(node.data)
+
         u = len(s)
         first_line = s+x*'_'+(n-x)*' '
         second_line = (u+x)*' '+'\\'+(n-x-1)*' '
         shifted_lines = [u*' '+line for line in lines]
+
         return [first_line, second_line] + shifted_lines, n+u, p+2, u//2
 
     # Two children
     left, n, p, x = build_tree_structure(node.left)
     right, m, q, y = build_tree_structure(node.right)
-    s = '{}'.format(node.data)
+
+    if node.duplicates > 1:
+        s = duplicate_string.format(node.data, node.duplicates)
+    else:
+        s = single_sting.format(node.data)
+
     u = len(s)
     first_line = (x+1)*' '+(n-x-1)*'_'+s+y*'_'+(m-y)*' '
     second_line = x*' '+'/'+(n-x-1+u+y)*' '+'\\'+(m-y-1)*' '
+
     if p < q:
         left += [n*' ']*(q-p)
     elif q < p:
         right += [m*' ']*(p-q)
+
     zipped_lines = zip(left, right)
     lines = [first_line, second_line] + [a+u*' '+b for a, b in zipped_lines]
+
     return lines, n+m+u, max(p, q)+2, n+u//2
 
 
 def process_test_case(test_case_number):
+    """
+    Process test case:
+        - build a tree from input 1
+        - perform operations from input 2
+        - record results to a file, print results to the screen
+        - record summary results
+    """
 
     # Pre-defined test cases
     test_case_name = test_names_map[test_case_number]
@@ -554,8 +632,9 @@ def process_test_case(test_case_number):
                 # Insert
                 bst_root = bst_tree.insert(bst_root, number)
                 avl_root = avl_tree.insert(avl_root, number)
-                bst_operations['I'] = bst_tree.primitive_operations
-                avl_operations['I'] = avl_tree.primitive_operations
+                # Counting operations turned off for this stage intentionally
+                # bst_operations['I'] = bst_tree.primitive_operations
+                # avl_operations['I'] = avl_tree.primitive_operations
 
                 # Report BST
                 bst_message += 'Insert: {}\n'.format(number)
@@ -585,6 +664,8 @@ def process_test_case(test_case_number):
             for code in input_2:
                 action, number = code.split(' ')
                 number = int(number)
+                found_bst = None
+                found_avl = None
                 AVLTree.rotation_type = ''
                 bst_tree.primitive_operations = 0
                 avl_tree.primitive_operations = 0
@@ -601,8 +682,8 @@ def process_test_case(test_case_number):
                     avl_operations['I'] += avl_tree.primitive_operations
 
                 if action == 'S':
-                    bst_tree.search(bst_root, number)
-                    avl_tree.search(avl_root, number)
+                    found_bst = bst_tree.search(bst_root, number)
+                    found_avl = avl_tree.search(avl_root, number)
                     bst_operations['S'] += bst_tree.primitive_operations
                     avl_operations['S'] += avl_tree.primitive_operations
 
@@ -614,11 +695,27 @@ def process_test_case(test_case_number):
 
                 bst_message += '{0}: {1}\n'.format(operation_map[action], number)
                 bst_message += bst_tree.print_tree(bst_root)
+                if action == 'S':
+                    if found_bst:
+                        if found_bst.duplicates > 1:
+                            bst_message += 'Found: {} ({})\n'.format(found_bst.data, found_bst.duplicates)
+                        else:
+                            bst_message += 'Found: {}\n'.format(found_bst.data)
+                    else:
+                        bst_message += 'Found: None\n'
                 bst_message += 'Tree height: {}\n'.format(bst_tree.get_height(bst_root) - 1)
                 bst_message += '------------------------\n'
 
                 avl_message += '{0}: {1}\n'.format(operation_map[action], number)
                 avl_message += avl_tree.print_tree(avl_root)
+                if action == 'S':
+                    if found_avl:
+                        if found_avl.duplicates > 1:
+                            avl_message += 'Found: {} ({})\n'.format(found_avl.data, found_avl.duplicates)
+                        else:
+                            avl_message += 'Found: {}\n'.format(found_avl.data)
+                    else:
+                        avl_message += 'Found: None\n'
                 avl_message += 'Rotation operation: {}\n'.format(AVLTree.rotation_type)
                 avl_message += 'Tree height: {}\n'.format(bst_tree.get_height(avl_root) - 1)
                 avl_message += '------------------------\n'
@@ -645,7 +742,7 @@ def process_test_case(test_case_number):
         output_1.write(bst_message)
 
     # AVL report
-    # print avl_message
+    print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
 

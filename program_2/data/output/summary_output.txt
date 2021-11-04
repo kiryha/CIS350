@@ -3,6 +3,18 @@
 
       Test #              Test Title         BST         AVL
 
-           9              Collisions          24          36
+           1         Missing Input 2           0           0
+           2           Empty Input 2           0           0
+           3        Basic Ideal Tree          28          44
+           4         Random Searches         219         419
+           5          Unbalanced BST         605         448
+           6         Perform Inserts         384         550
+           7         Perform Deletes         124         448
+           8        Perform Searches         101          83
+           9        Basic Collisions          10          16
+          10                Basic RR           0           0
+          11                Basic LL           0           0
+          12                Basic RL           0           0
+          13                Basic LR           0           0
 
-                 Total for all cases          24          36
+                 Total for all cases        1471        2008
