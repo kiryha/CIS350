@@ -36,111 +36,7 @@ test_names_map = {1: 'Missing Input 2',
                   12: 'Basic RL',
                   13: 'Basic LR'}
 
-# test_names_map = {10: 'Basic RR', 12: 'Basic RL'}  # 10: 'Basic RR', 12: 'Basic RL'
-
-
-def build_summary_table(values):
-    """
-    Build a string for operations count
-    values = [ [ test case #, name, sum bst, sum avl ], ... ]
-    """
-
-    columns = ['Test #', 'Test Title', 'BST', 'AVL']
-    sum_bst = sum(value[2] for value in values)
-    sum_avl = sum(value[3] for value in values)
-
-    message = '{0:>60}\n\n\n'.format('Summary Operations Count')
-
-    row = '{}{:>12}{:>24}{:>12}{:>12}\n'
-    message += row.format('', *columns)
-    message += '\n'
-
-    for index, value in enumerate(values):
-        message += row.format('', *value)
-
-    message += '\n'
-    message += '{:>12}{:>24}{:>12}{:>12}'.format('', 'Total for all cases', sum_bst, sum_avl)
-
-    return message
-
-
-def build_operation_table(test_case_name, values):
-    """
-    Build a string for operations count
-    """
-
-    tree_names = ['BST', 'AVL']
-    operations = ['Search', 'Insert', 'Delete']
-
-    sum_bst = sum(value[0] for value in values)
-    sum_avl = sum(value[1] for value in values)
-
-    message = '{0:>34}\n'.format('Operations count for:')
-    message += '{0:>34}\n\n\n'.format(test_case_name)
-
-    row = '{:>10}{:>12}{:>12}\n'
-    message += row.format('', *tree_names)
-    message += '\n'
-
-    for index, value in enumerate(values):
-        message += row.format(operations[index], *value)
-
-    message += '\n'
-    message += '{:>10}{:>12}{:>12}'.format('Total', sum_bst, sum_avl)
-    message += '\n\n'
-
-    return message, sum_bst, sum_avl
-
-
-def build_tree_structure(node):
-    """
-    Build a string that represents a tree structure
-    :param node: tree node
-    :return: string, width, height, and horizontal coordinate of the root for printing tree
-    """
-
-    # No child
-    if node.right is None and node.left is None:
-        line = '{}'.format(node.data)
-        width = len(line)
-        height = 1
-        middle = width // 2
-        return [line], width, height, middle
-
-    # Only left child
-    if node.right is None:
-        lines, n, p, x = build_tree_structure(node.left)
-        s = '{}'.format(node.data)
-        u = len(s)
-        first_line = (x+1)*' '+(n-x-1)*'_'+s
-        second_line = x*' '+'/'+(n-x-1+u)*' '
-        shifted_lines = [line+u*' ' for line in lines]
-        return [first_line, second_line] + shifted_lines, n+u, p+2, n+u//2
-
-    # Only right child
-    if node.left is None:
-        lines, n, p, x = build_tree_structure(node.right)
-        s = '{}'.format(node.data)
-        u = len(s)
-        first_line = s+x*'_'+(n-x)*' '
-        second_line = (u+x)*' '+'\\'+(n-x-1)*' '
-        shifted_lines = [u*' '+line for line in lines]
-        return [first_line, second_line] + shifted_lines, n+u, p+2, u//2
-
-    # Two children
-    left, n, p, x = build_tree_structure(node.left)
-    right, m, q, y = build_tree_structure(node.right)
-    s = '{}'.format(node.data)
-    u = len(s)
-    first_line = (x+1)*' '+(n-x-1)*'_'+s+y*'_'+(m-y)*' '
-    second_line = x*' '+'/'+(n-x-1+u+y)*' '+'\\'+(m-y-1)*' '
-    if p < q:
-        left += [n*' ']*(q-p)
-    elif q < p:
-        right += [m*' ']*(p-q)
-    zipped_lines = zip(left, right)
-    lines = [first_line, second_line] + [a+u*' '+b for a, b in zipped_lines]
-    return lines, n+m+u, max(p, q)+2, n+u//2
+test_names_map = {9: 'Collisions'}  # 10: 'Basic RR', 12: 'Basic RL'
 
 
 class Node:
@@ -149,6 +45,7 @@ class Node:
         self.left = None
         self.right = None
         self.height = 1
+        self.duplicates = 0
 
 
 class BSTree:
@@ -229,6 +126,9 @@ class BSTree:
         return root.height
 
     def min_value_node(self, node):
+        """
+        Get and return child node with a minimum value
+        """
 
         current = node
 
@@ -250,7 +150,6 @@ class BSTree:
 
         lines, a, b, c = build_tree_structure(root)
         for line in lines:
-            # print(line)
             string += '{0}\n'.format(line)
 
         return string
@@ -307,7 +206,7 @@ class AVLTree:
 
         self.primitive_operations += 1
 
-        # Empty tree/ data in root
+        # Empty tree or data in root
         if root is None or root.data == data:
             return root
 
@@ -498,6 +397,110 @@ class AVLTree:
         return string
 
 
+def build_summary_table(values):
+    """
+    Build a string for operations count
+    values = [ [ test case #, name, sum bst, sum avl ], ... ]
+    """
+
+    columns = ['Test #', 'Test Title', 'BST', 'AVL']
+    sum_bst = sum(value[2] for value in values)
+    sum_avl = sum(value[3] for value in values)
+
+    message = '{0:>60}\n\n\n'.format('Summary Operations Count')
+
+    row = '{}{:>12}{:>24}{:>12}{:>12}\n'
+    message += row.format('', *columns)
+    message += '\n'
+
+    for index, value in enumerate(values):
+        message += row.format('', *value)
+
+    message += '\n'
+    message += '{:>12}{:>24}{:>12}{:>12}'.format('', 'Total for all cases', sum_bst, sum_avl)
+
+    return message
+
+
+def build_operation_table(test_case_name, values):
+    """
+    Build a string for operations count
+    """
+
+    tree_names = ['BST', 'AVL']
+    operations = ['Search', 'Insert', 'Delete']
+
+    sum_bst = sum(value[0] for value in values)
+    sum_avl = sum(value[1] for value in values)
+
+    message = '{0:>34}\n'.format('Operations count for:')
+    message += '{0:>34}\n\n\n'.format(test_case_name)
+
+    row = '{:>10}{:>12}{:>12}\n'
+    message += row.format('', *tree_names)
+    message += '\n'
+
+    for index, value in enumerate(values):
+        message += row.format(operations[index], *value)
+
+    message += '\n'
+    message += '{:>10}{:>12}{:>12}'.format('Total', sum_bst, sum_avl)
+    message += '\n\n'
+
+    return message, sum_bst, sum_avl
+
+
+def build_tree_structure(node):
+    """
+    Build a string that represents a tree structure
+    :param node: tree node
+    :return: string, width, height, and horizontal coordinate of the root for printing tree
+    """
+
+    # No child
+    if node.right is None and node.left is None:
+        line = '{}'.format(node.data)
+        width = len(line)
+        height = 1
+        middle = width // 2
+        return [line], width, height, middle
+
+    # Only left child
+    if node.right is None:
+        lines, n, p, x = build_tree_structure(node.left)
+        s = '{}'.format(node.data)
+        u = len(s)
+        first_line = (x+1)*' '+(n-x-1)*'_'+s
+        second_line = x*' '+'/'+(n-x-1+u)*' '
+        shifted_lines = [line+u*' ' for line in lines]
+        return [first_line, second_line] + shifted_lines, n+u, p+2, n+u//2
+
+    # Only right child
+    if node.left is None:
+        lines, n, p, x = build_tree_structure(node.right)
+        s = '{}'.format(node.data)
+        u = len(s)
+        first_line = s+x*'_'+(n-x)*' '
+        second_line = (u+x)*' '+'\\'+(n-x-1)*' '
+        shifted_lines = [u*' '+line for line in lines]
+        return [first_line, second_line] + shifted_lines, n+u, p+2, u//2
+
+    # Two children
+    left, n, p, x = build_tree_structure(node.left)
+    right, m, q, y = build_tree_structure(node.right)
+    s = '{}'.format(node.data)
+    u = len(s)
+    first_line = (x+1)*' '+(n-x-1)*'_'+s+y*'_'+(m-y)*' '
+    second_line = x*' '+'/'+(n-x-1+u+y)*' '+'\\'+(m-y-1)*' '
+    if p < q:
+        left += [n*' ']*(q-p)
+    elif q < p:
+        right += [m*' ']*(p-q)
+    zipped_lines = zip(left, right)
+    lines = [first_line, second_line] + [a+u*' '+b for a, b in zipped_lines]
+    return lines, n+m+u, max(p, q)+2, n+u//2
+
+
 def process_test_case(test_case_number):
 
     # Pre-defined test cases
@@ -642,7 +645,7 @@ def process_test_case(test_case_number):
         output_1.write(bst_message)
 
     # AVL report
-    print avl_message
+    # print avl_message
     with open(output_2_file_path, 'w') as output_2:
         output_2.write(avl_message)
 
