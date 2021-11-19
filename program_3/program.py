@@ -25,24 +25,34 @@ class Vertex:
         self.next = None
 
 
-class Graph:
+class ALGraph:
     """
     Adjacent List representation of a graph
     """
     def __init__(self, number_of_vertices):
         self.number_of_vertices = number_of_vertices
-        self.graph = [None] * self.number_of_vertices
-        print self.graph
+        self.edges = [None] * self.number_of_vertices
 
     def add_edge(self, vertex_id_1, vertex_id_2, weight):
+        """
+        Add edge to the list of edges
+        :param vertex_id_1: vertex 1 value
+        :param vertex_id_2: vertex 2 value
+        :param weight: vertex 1-2 weight
+        :return:
+        """
 
+        # Add vertex ID 1
         vertex = Vertex(vertex_id_1, weight)
-        vertex.next = self.graph[vertex_id_2]
-        self.graph[vertex_id_2] = vertex
+        vertex.next = self.edges[vertex_id_2]
+        self.edges[vertex_id_2] = vertex
 
+        # Add vertex ID 2
         vertex = Vertex(vertex_id_2, weight)
-        vertex.next = self.graph[vertex_id_1]
-        self.graph[vertex_id_1] = vertex
+        vertex.next = self.edges[vertex_id_1]
+        self.edges[vertex_id_1] = vertex
+        # print self.edges[vertex_id_1].vertex_id, self.edges[vertex_id_1].next
+        # print self.edges[vertex_id_2].vertex_id, self.edges[vertex_id_2].next
 
     def build_graph_string(self):
 
@@ -50,7 +60,7 @@ class Graph:
 
         for i in range(self.number_of_vertices):
             graph_string += 'Vertex [{}]: '.format(i)
-            vertex = self.graph[i]
+            vertex = self.edges[i]
             while vertex:
                 graph_string += '({0}, {1}) '.format(vertex.vertex_id, vertex.weight)
                 vertex = vertex.next
@@ -58,6 +68,18 @@ class Graph:
 
         return graph_string
 
+    def build_graph_dictionary(self):
+
+        graph_dictionary = {}
+
+        for i in range(self.number_of_vertices):
+            graph_dictionary[i] = {}
+            vertex = self.edges[i]
+            while vertex:
+                graph_dictionary[i][vertex.vertex_id] = vertex.weight
+                vertex = vertex.next
+
+        return graph_dictionary
 
 def read_data(file_path):
     """
@@ -103,7 +125,7 @@ def read_data(file_path):
             # Parse graph data
             else:
                 graphs_data[index]['edges'].append([int(line_content[0]), int(line_content[1]), int(line_content[2])])
-    
+
     return graphs_data
 
 
@@ -111,25 +133,43 @@ def process_graph(graph_data):
 
     number_of_vertices = graph_data['properties']['number_of_vertices']
     edges = graph_data['edges']
-    graph = Graph(number_of_vertices)
+    al_graph = ALGraph(number_of_vertices)
 
     for edge in edges:
-        graph.add_edge(edge[0], edge[1], edge[2])
+        al_graph.add_edge(edge[0], edge[1], edge[2])
 
-    print graph.build_graph_string()
+    al_string = al_graph.build_graph_string()
+    print al_string
+
+    return al_string
 
 
 def run_processing():
 
-    file_path = '{0}/data/input/MST2.dat'.format(program_root)
-    graphs_data = read_data(file_path)
+    in_file_name = 'MST2.dat'
+    out_file_name = in_file_name.replace('.dat', '.out')
+    in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
+    out_file_path = '{0}/data/output/{1}'.format(program_root, out_file_name)
+
+    graphs_report = ''
+    graphs_data = read_data(in_file_path)
 
     if not graphs_data:
         return
 
-    for graph_data in graphs_data.values():
-        # print graph_data['edges']
-        process_graph(graph_data)
+    for graph_index, graph_data in graphs_data.iteritems():
+        al_string = process_graph(graph_data)
+        graphs_report += 'Full graph {} adjacency list\n'.format(graph_index)
+        graphs_report += al_string
+        graphs_report += '\n'
+
+    if not os.path.exists(os.path.dirname(out_file_path)):
+        os.makedirs(os.path.dirname(out_file_path))
+
+    with open(out_file_path, 'w') as data:
+        data.write('Program processing {}...\n\n'.format(in_file_name))
+        data.write(graphs_report)
+        data.write('Program complete!')
 
 
 if __name__ == "__main__":
