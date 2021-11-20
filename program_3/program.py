@@ -11,7 +11,6 @@ Build a Minimum Spanning Tree
 Student: Kyrylo Krysko
 Date started: 11/18/2021
 """
-from collections import defaultdict
 import os
 program_root = os.path.dirname(os.path.abspath(__file__))
 
@@ -24,20 +23,26 @@ class Heap:
         self.pos = []
 
     def new_min_heap_node(self, vertex_id, weight):
+        """
+        Create heap node
+        """
 
         return [vertex_id, weight]
 
     def swap_min_heap_node(self, id_1, id_2):
+        """
+        Swap nodes
+        """
 
         temp = self.array[id_1]
         self.array[id_1] = self.array[id_2]
         self.array[id_2] = temp
 
-    # A standard function to heapify at given idx
-    # This function also updates position of nodes
-    # when they are swapped. Position is needed
-    # for decreaseKey()
-    def minHeapify(self, idx):
+    def min_heapify(self, idx):
+        """
+        Create Heap
+        """
+
         smallest = idx
         left = 2 * idx + 1
         right = 2 * idx + 2
@@ -48,8 +53,7 @@ class Heap:
         if right < self.size and self.array[right][1] < self.array[smallest][1]:
             smallest = right
 
-        # The nodes to be swapped in min heap
-        # if idx is not smallest
+        # Swap nodes
         if smallest != idx:
             # Swap positions
             self.pos[self.array[smallest][0]] = idx
@@ -58,29 +62,31 @@ class Heap:
             # Swap nodes
             self.swap_min_heap_node(smallest, idx)
 
-            self.minHeapify(smallest)
+            self.min_heapify(smallest)
 
     # Standard function to extract minimum node from heap
-    def extractMin(self):
+    def extract_min(self):
+        """
+        Get minimum node
+        """
 
-        # Return NULL wif heap is empty
-        if self.is_empty() == True:
+        if self.is_empty():
             return
 
         # Store the root node
         root = self.array[0]
 
         # Replace root node with last node
-        lastNode = self.array[self.size - 1]
-        self.array[0] = lastNode
+        last_node = self.array[self.size - 1]
+        self.array[0] = last_node
 
         # Update position of last node
-        self.pos[lastNode[0]] = 0
+        self.pos[last_node[0]] = 0
         self.pos[root[0]] = self.size - 1
 
         # Reduce heap size and heapify root
         self.size -= 1
-        self.minHeapify(0)
+        self.min_heapify(0)
 
         return root
 
@@ -91,34 +97,32 @@ class Heap:
         else:
             return False
 
-    def decreaseKey(self, v, dist):
+    def decrease_key(self, vertex_id, weight):
 
-        # Get the index of v in  heap array
+        # Get index vertex in array
+        i = self.pos[vertex_id]
 
-        i = self.pos[v]
+        # Update node weight
+        self.array[i][1] = weight
 
-        # Get the node and update its dist value
-        self.array[i][1] = dist
-
-        # Travel up while the complete tree is not
-        # hepified. This is a O(Logn) loop
-        while i > 0 and self.array[i][1] < \
-                self.array[(i - 1) / 2][1]:
-            # Swap this node with its parent
+        # Heapify
+        while i > 0 and self.array[i][1] < self.array[(i - 1) / 2][1]:
+            # Swap current node with  parent
             self.pos[self.array[i][0]] = (i - 1) / 2
             self.pos[self.array[(i - 1) / 2][0]] = i
             self.swap_min_heap_node(i, (i - 1) / 2)
-
-            # move to parent index
             i = (i - 1) / 2
 
-    # A utility function to check if a given vertex
-    # 'v' is in min heap or not
-    def isInMinHeap(self, v):
+    def vertex_in_heap(self, vertex_id):
+        """
+        Check if a vertex in heap
+        """
 
-        if self.pos[v] < self.size:
+        if self.pos[vertex_id] < self.size:
             return True
-        return False
+
+        else:
+            return False
 
 
 class Vertex:
@@ -204,46 +208,41 @@ class Graph:
         number_of_vertices = self.number_of_vertices
 
         # MST data
-        key = []
+        weights = []
         parent = []
         min_heap = Heap()
 
         # Add vertices to the heap
         for vertex_id in range(number_of_vertices):
             parent.append(-1)
-            key.append(99999)
-            min_heap.array.append(min_heap.new_min_heap_node(vertex_id, key[vertex_id]))
+            weights.append(99999)
+            min_heap.array.append(min_heap.new_min_heap_node(vertex_id, weights[vertex_id]))
             min_heap.pos.append(vertex_id)
 
-        # # Make key value of 0th vertex as 0 so
-        # # that it is extracted first
+        # Extract 0 vertex
         # min_heap.pos[0] = 0
-        # key[0] = 0
-        # min_heap.decreaseKey(0, key[0])
+        # weights[0] = 0
+        # min_heap.decrease_key(0, weights[0])
 
         # Init heap size
         min_heap.size = number_of_vertices
 
         # Process MST
-        while min_heap.is_empty() == False:
+        while not min_heap.is_empty():
 
             # Extract the vertex with minimum distance value
-            newHeapNode = min_heap.extractMin()
-            min_value = newHeapNode[0]
+            heap_node = min_heap.extract_min()
+            min_value = heap_node[0]
 
-            # Traverse through all adjacent vertices of u
-            # (the extracted vertex) and update their
-            # distance values
-
+            # Update weights on adjacent vertices
             vertex = self.edges[min_value]
             while vertex:
-                if min_heap.isInMinHeap(vertex.vertex_id) and vertex.weight < key[vertex.vertex_id]:
-                    # print 'parent added [{}] : {}    W {}'.format(vertex.vertex_id, min_value, vertex.weight)
+                if min_heap.vertex_in_heap(vertex.vertex_id) and vertex.weight < weights[vertex.vertex_id]:
 
-                    key[vertex.vertex_id] = vertex.weight
+                    weights[vertex.vertex_id] = vertex.weight
                     parent[vertex.vertex_id] = min_value
                     # Update distance in heap
-                    min_heap.decreaseKey(vertex.vertex_id, key[vertex.vertex_id])
+                    min_heap.decrease_key(vertex.vertex_id, weights[vertex.vertex_id])
 
                     # Construct MST graph
                     self.mst_graph[vertex.vertex_id] = Vertex(min_value, vertex.weight)
@@ -327,7 +326,7 @@ def process_graph(graph_data):
 
 def run_processing():
 
-    in_file_name = 'MST2.dat'
+    in_file_name = 'MST4.dat'
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
     out_file_path = '{0}/data/output/{1}'.format(program_root, out_file_name)
