@@ -23,16 +23,15 @@ class Heap:
         self.size = 0
         self.pos = []
 
-    def newMinHeapNode(self, v, dist):
-        minHeapNode = [v, dist]
-        return minHeapNode
+    def new_min_heap_node(self, vertex_id, weight):
 
-    # A utility function to swap two nodes of
-    # min heap. Needed for min heapify
-    def swapMinHeapNode(self, a, b):
-        t = self.array[a]
-        self.array[a] = self.array[b]
-        self.array[b] = t
+        return [vertex_id, weight]
+
+    def swap_min_heap_node(self, id_1, id_2):
+
+        temp = self.array[id_1]
+        self.array[id_1] = self.array[id_2]
+        self.array[id_2] = temp
 
     # A standard function to heapify at given idx
     # This function also updates position of nodes
@@ -43,12 +42,10 @@ class Heap:
         left = 2 * idx + 1
         right = 2 * idx + 2
 
-        if left < self.size and self.array[left][1] < \
-                self.array[smallest][1]:
+        if left < self.size and self.array[left][1] < self.array[smallest][1]:
             smallest = left
 
-        if right < self.size and self.array[right][1] < \
-                self.array[smallest][1]:
+        if right < self.size and self.array[right][1] < self.array[smallest][1]:
             smallest = right
 
         # The nodes to be swapped in min heap
@@ -59,7 +56,7 @@ class Heap:
             self.pos[self.array[idx][0]] = smallest
 
             # Swap nodes
-            self.swapMinHeapNode(smallest, idx)
+            self.swap_min_heap_node(smallest, idx)
 
             self.minHeapify(smallest)
 
@@ -110,7 +107,7 @@ class Heap:
             # Swap this node with its parent
             self.pos[self.array[i][0]] = (i - 1) / 2
             self.pos[self.array[(i - 1) / 2][0]] = i
-            self.swapMinHeapNode(i, (i - 1) / 2)
+            self.swap_min_heap_node(i, (i - 1) / 2)
 
             # move to parent index
             i = (i - 1) / 2
@@ -215,7 +212,7 @@ class Graph:
         for vertex_id in range(number_of_vertices):
             parent.append(-1)
             key.append(99999)
-            min_heap.array.append(min_heap.newMinHeapNode(vertex_id, key[vertex_id]))
+            min_heap.array.append(min_heap.new_min_heap_node(vertex_id, key[vertex_id]))
             min_heap.pos.append(vertex_id)
 
         # # Make key value of 0th vertex as 0 so
