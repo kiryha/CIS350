@@ -67,7 +67,7 @@ class Heap:
     def extractMin(self):
 
         # Return NULL wif heap is empty
-        if self.isEmpty() == True:
+        if self.is_empty() == True:
             return
 
         # Store the root node
@@ -87,8 +87,12 @@ class Heap:
 
         return root
 
-    def isEmpty(self):
-        return True if self.size == 0 else False
+    def is_empty(self):
+
+        if self.size == 0:
+            return True
+        else:
+            return False
 
     def decreaseKey(self, v, dist):
 
@@ -197,42 +201,37 @@ class Graph:
 
         return graph_dictionary
 
-    def PrimMST(self):
+    def build_mst_graph(self):
+
         # Get the number of vertices in graph
         number_of_vertices = self.number_of_vertices
 
-        # key values used to pick minimum weight edge in cut
+        # MST data
         key = []
-
-        # List to store contructed MST
         parent = []
+        min_heap = Heap()
 
-        # minHeap represents set E
-        minHeap = Heap()
-
-        # Initialize min heap with all vertices. Key values of all
-        # vertices (except the 0th vertex) is is initially infinite
+        # Add vertices to the heap
         for vertex_id in range(number_of_vertices):
             parent.append(-1)
             key.append(99999)
-            minHeap.array.append(minHeap.newMinHeapNode(vertex_id, key[vertex_id]))
-            minHeap.pos.append(vertex_id)
+            min_heap.array.append(min_heap.newMinHeapNode(vertex_id, key[vertex_id]))
+            min_heap.pos.append(vertex_id)
 
-        # Make key value of 0th vertex as 0 so
-        # that it is extracted first
-        minHeap.pos[0] = 0
-        key[0] = 0
-        minHeap.decreaseKey(0, key[0])
+        # # Make key value of 0th vertex as 0 so
+        # # that it is extracted first
+        # min_heap.pos[0] = 0
+        # key[0] = 0
+        # min_heap.decreaseKey(0, key[0])
 
-        # Initially size of min heap is equal to V
-        minHeap.size = number_of_vertices
+        # Init heap size
+        min_heap.size = number_of_vertices
 
-        # In the following loop, min heap contains all nodes
-        # not yet added in the MST.
-        while minHeap.isEmpty() == False:
+        # Process MST
+        while min_heap.is_empty() == False:
 
             # Extract the vertex with minimum distance value
-            newHeapNode = minHeap.extractMin()
+            newHeapNode = min_heap.extractMin()
             min_value = newHeapNode[0]
 
             # Traverse through all adjacent vertices of u
@@ -241,17 +240,16 @@ class Graph:
 
             vertex = self.edges[min_value]
             while vertex:
-                if minHeap.isInMinHeap(vertex.vertex_id) and vertex.weight < key[vertex.vertex_id]:
+                if min_heap.isInMinHeap(vertex.vertex_id) and vertex.weight < key[vertex.vertex_id]:
                     # print 'parent added [{}] : {}    W {}'.format(vertex.vertex_id, min_value, vertex.weight)
 
                     key[vertex.vertex_id] = vertex.weight
                     parent[vertex.vertex_id] = min_value
+                    # Update distance in heap
+                    min_heap.decreaseKey(vertex.vertex_id, key[vertex.vertex_id])
 
-                    new_vertex = Vertex(min_value, vertex.weight)
-                    self.mst_graph[vertex.vertex_id] = new_vertex
-
-                    # update distance value in min heap also
-                    minHeap.decreaseKey(vertex.vertex_id, key[vertex.vertex_id])
+                    # Construct MST graph
+                    self.mst_graph[vertex.vertex_id] = Vertex(min_value, vertex.weight)
 
                 vertex = vertex.next
 
@@ -314,7 +312,7 @@ def process_graph(graph_data):
         al_graph.add_edge(edge[0], edge[1], edge[2])
 
     al_string = al_graph.build_adjacency_string()
-    al_graph.PrimMST()
+    al_graph.build_mst_graph()
     mst_string = al_graph.build_mst_string()
 
     graph = Graph(number_of_vertices)
