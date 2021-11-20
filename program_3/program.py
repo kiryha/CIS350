@@ -326,7 +326,8 @@ def process_graph(graph_data):
 
 def run_processing():
 
-    in_file_name = 'MST4.dat'
+    # input_file_version = raw_input('Enter the source file VERSION (1,2,3, etc.): ')
+    in_file_name = 'MST2.dat'
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
     out_file_path = '{0}/data/output/{1}'.format(program_root, out_file_name)
