@@ -211,6 +211,7 @@ class Graph:
         weights = []
         parent = []
         min_heap = Heap()
+        min_heap.size = number_of_vertices
 
         # Add vertices to the heap
         for vertex_id in range(number_of_vertices):
@@ -219,13 +220,10 @@ class Graph:
             min_heap.array.append(min_heap.new_min_heap_node(vertex_id, weights[vertex_id]))
             min_heap.pos.append(vertex_id)
 
-        # Extract 0 vertex
+        # # Extract 0 vertex
         # min_heap.pos[0] = 0
         # weights[0] = 0
         # min_heap.decrease_key(0, weights[0])
-
-        # Init heap size
-        min_heap.size = number_of_vertices
 
         # Process MST
         while not min_heap.is_empty():
@@ -327,10 +325,14 @@ def process_graph(graph_data):
 def run_processing():
 
     # input_file_version = raw_input('Enter the source file VERSION (1,2,3, etc.): ')
-    in_file_name = 'MST2.dat'
+    input_file_version = '2'
+    in_file_name = 'MST{}.dat'.format(input_file_version)
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
     out_file_path = '{0}/data/output/{1}'.format(program_root, out_file_name)
+
+    if not os.path.exists(in_file_path):
+        print 'ERROR! The file {} does not exist! {lease, enter the correct name.'.format(in_file_path)
 
     graphs_report = ''
     graphs_data = read_data(in_file_path)
