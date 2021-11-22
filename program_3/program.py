@@ -38,14 +38,14 @@ class Heap:
         self.array[id_1] = self.array[id_2]
         self.array[id_2] = temp
 
-    def min_heapify(self, idx):
+    def min_heapify(self, id_x):
         """
         Create Heap
         """
 
-        smallest = idx
-        left = 2 * idx + 1
-        right = 2 * idx + 2
+        smallest = id_x
+        left = 2 * id_x + 1
+        right = 2 * id_x + 2
 
         if left < self.size and self.array[left][1] < self.array[smallest][1]:
             smallest = left
@@ -54,13 +54,13 @@ class Heap:
             smallest = right
 
         # Swap nodes
-        if smallest != idx:
+        if smallest != id_x:
             # Swap positions
-            self.pos[self.array[smallest][0]] = idx
-            self.pos[self.array[idx][0]] = smallest
+            self.pos[self.array[smallest][0]] = id_x
+            self.pos[self.array[id_x][0]] = smallest
 
             # Swap nodes
-            self.swap_min_heap_node(smallest, idx)
+            self.swap_min_heap_node(smallest, id_x)
 
             self.min_heapify(smallest)
 
@@ -392,7 +392,7 @@ def process_graph(graph_data):
 def run_processing():
 
     # input_file_version = raw_input('Enter the source file VERSION (1,2,3, etc.): ')
-    input_file_version = '4'
+    input_file_version = '2'
     in_file_name = 'MST{}.dat'.format(input_file_version)
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
@@ -400,6 +400,7 @@ def run_processing():
 
     if not os.path.exists(in_file_path):
         print 'ERROR! The file {} does not exist! Please, enter the correct name.'.format(in_file_path)
+        return
 
     graphs_report = ''
     graphs_data = read_data(in_file_path)
@@ -413,7 +414,7 @@ def run_processing():
         return
 
     for graph_index, graph_data in graphs_data.iteritems():
-        print graph_data
+
         if not graph_data['errors'] and graph_data['edges']:
             al_string, mst_string, al_mst_string = process_graph(graph_data)
 
