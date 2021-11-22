@@ -139,8 +139,8 @@ class Graph:
     """
     def __init__(self, number_of_vertices):
         self.number_of_vertices = number_of_vertices
-        self.edges = [None] * self.number_of_vertices
-        self.mst_graph = [None] * self.number_of_vertices
+        self.src_edges = [None] * self.number_of_vertices
+        self.mst_edges = [None] * self.number_of_vertices
 
     def add_edge(self, vertex_id_1, vertex_id_2, weight):
         """
@@ -153,13 +153,13 @@ class Graph:
 
         # Add vertex ID 1
         vertex = Vertex(vertex_id_1, weight)
-        vertex.next = self.edges[vertex_id_2]
-        self.edges[vertex_id_2] = vertex
+        vertex.next = self.src_edges[vertex_id_2]
+        self.src_edges[vertex_id_2] = vertex
 
         # Add vertex ID 2
         vertex = Vertex(vertex_id_2, weight)
-        vertex.next = self.edges[vertex_id_1]
-        self.edges[vertex_id_1] = vertex
+        vertex.next = self.src_edges[vertex_id_1]
+        self.src_edges[vertex_id_1] = vertex
 
     def build_adjacency_string(self):
 
@@ -167,7 +167,7 @@ class Graph:
 
         for i in range(self.number_of_vertices):
             graph_string += 'Vertex [{}]: '.format(i)
-            vertex = self.edges[i]
+            vertex = self.src_edges[i]
             while vertex:
                 graph_string += '({0}, {1}) '.format(vertex.vertex_id, vertex.weight)
                 vertex = vertex.next
@@ -181,7 +181,7 @@ class Graph:
         mst_string = ''
 
         for i in range(1, self.number_of_vertices):
-            vertex = self.mst_graph[i]
+            vertex = self.mst_edges[i]
             mst_string += 'Edge: {}-{} weight: {}\n'.format(i, vertex.vertex_id, vertex.weight)
             cost += vertex.weight
 
@@ -195,7 +195,7 @@ class Graph:
 
         for i in range(self.number_of_vertices):
             graph_dictionary[i] = {}
-            vertex = self.edges[i]
+            vertex = self.src_edges[i]
             while vertex:
                 graph_dictionary[i][vertex.vertex_id] = vertex.weight
                 vertex = vertex.next
@@ -233,7 +233,7 @@ class Graph:
             min_value = heap_node[0]
 
             # Update weights on adjacent vertices
-            vertex = self.edges[min_value]
+            vertex = self.src_edges[min_value]
             while vertex:
                 if min_heap.vertex_in_heap(vertex.vertex_id) and vertex.weight < weights[vertex.vertex_id]:
 
@@ -243,7 +243,7 @@ class Graph:
                     min_heap.decrease_key(vertex.vertex_id, weights[vertex.vertex_id])
 
                     # Construct MST graph
-                    self.mst_graph[vertex.vertex_id] = Vertex(min_value, vertex.weight)
+                    self.mst_edges[vertex.vertex_id] = Vertex(min_value, vertex.weight)
 
                 vertex = vertex.next
 
@@ -298,6 +298,7 @@ def read_data(file_path):
 
 def process_graph(graph_data):
 
+    # Build adjacency list for source graph
     number_of_vertices = graph_data['properties']['number_of_vertices']
     edges = graph_data['edges']
     al_graph = Graph(number_of_vertices)
@@ -305,27 +306,25 @@ def process_graph(graph_data):
     for edge in edges:
         al_graph.add_edge(edge[0], edge[1], edge[2])
 
+    # Create MST graph
     al_string = al_graph.build_adjacency_string()
     al_graph.build_mst_graph()
     mst_string = al_graph.build_mst_string()
 
+    # Build adjacency list for MST graph
     graph = Graph(number_of_vertices)
-    for i in range(1, len(al_graph.mst_graph)):
-        graph.add_edge(i, al_graph.mst_graph[i].vertex_id, al_graph.mst_graph[i].weight)
+    for i in range(1, len(al_graph.mst_edges)):
+        graph.add_edge(i, al_graph.mst_edges[i].vertex_id, al_graph.mst_edges[i].weight)
 
-    al_mast_string = graph.build_adjacency_string()
+    al_mst_string = graph.build_adjacency_string()
 
-    print al_string
-    print mst_string
-    print al_mast_string
-
-    return al_string, mst_string, al_mast_string
+    return al_string, mst_string, al_mst_string
 
 
 def run_processing():
 
     # input_file_version = raw_input('Enter the source file VERSION (1,2,3, etc.): ')
-    input_file_version = '2'
+    input_file_version = '1'
     in_file_name = 'MST{}.dat'.format(input_file_version)
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
@@ -341,13 +340,20 @@ def run_processing():
         return
 
     for graph_index, graph_data in graphs_data.iteritems():
-        al_string, mst_string, al_mast_string = process_graph(graph_data)
+        al_string, mst_string, al_mst_string = process_graph(graph_data)
+
+        # Print report
+        print al_string
+        print mst_string
+        print al_mst_string
+
+        # Write report to a file
         graphs_report += 'Full graph {} adjacency list:\n'.format(graph_index)
         graphs_report += al_string
         graphs_report += '\nMST graph {}\n'.format(graph_index)
         graphs_report += mst_string
         graphs_report += 'MST graph {} adjacency list:\n'.format(graph_index)
-        graphs_report += al_mast_string
+        graphs_report += al_mst_string
         graphs_report += '\n\n'
 
     if not os.path.exists(os.path.dirname(out_file_path)):
