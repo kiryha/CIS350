@@ -1,16 +1,7 @@
 Program processing MST0.dat...
 
 Graph 1 input data is invalid!
-Graph edges data is empty
-
-Graph 2 input data is invalid!
-Header of graph is invalid: negative numbers.
-Graph edges data is empty
-
-Graph 3 input data is invalid!
-Graph edges data is empty
-
-Graph 4 input data is invalid!
+Header of graph is invalid.
 Graph edges data is empty
 
 Program complete!

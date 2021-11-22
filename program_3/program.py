@@ -248,7 +248,15 @@ class Graph:
                 vertex = vertex.next
 
 
-def validate_data(vertex_id_1, vertex_id_2, weight):
+def validate_connected(graphs_data):
+
+    for graph_index, graph_data in graphs_data.iteritems():
+        if graph_data['edges']:
+            if len(graph_data['edges']) < graph_data['properties']['number_of_vertices']:
+                graphs_data[graph_index]['errors'].append('Graph is not connected.')
+
+
+def validate_data(vertex_id_1, vertex_id_2, weight, number_of_vertices):
 
     line_errors = ''
 
@@ -259,11 +267,24 @@ def validate_data(vertex_id_1, vertex_id_2, weight):
     if vertex_id_2 < 0:
         line_errors += 'Vertex 2 value is negative integer'
 
+    # Check vertex values
+    if vertex_id_1 >= number_of_vertices:
+        line_errors += 'Vertex 1 value is grater then number of vertexes'
+
+    # Check vertex values
+    if vertex_id_2 >= number_of_vertices:
+        line_errors += 'Vertex 2 value is grater then number of vertexes'
+
+    # Check if weight is grater then 0
+    if weight <= 0:
+        line_errors += 'Vertex value has wrong weight'
+
     if line_errors != '':
         return line_errors
 
     else:
         return None
+
 
 def read_data(file_path):
     """
@@ -278,8 +299,8 @@ def read_data(file_path):
 
     # Store graph data
     graph_index = 1
-    # empty_graph = None
     graphs_data = {}
+    invalid_header = False
 
     with open(file_path, 'r') as data:
         lines_data = data.readlines()
@@ -291,7 +312,9 @@ def read_data(file_path):
             # Get graph header
             if len(line_content) == 2:
 
+                # Detect new graph
                 if graph_index in graphs_data.keys():
+                    invalid_header = False
                     graph_index += 1
 
                 # Init new graph
@@ -306,8 +329,9 @@ def read_data(file_path):
                 graphs_data[graph_index] = graph_data
 
                 # Validate header
-                if number_of_vertices < 0 or number_of_edges < 0:
-                    graphs_data[graph_index]['errors'].append('Header of graph is invalid: negative numbers.')
+                if number_of_vertices <= 0 or number_of_edges <= 0:
+                    graphs_data[graph_index]['errors'].append('Header of graph is invalid.')
+                    invalid_header = True
 
             # Skip empty line
             elif len(line_content) == 0:
@@ -315,21 +339,27 @@ def read_data(file_path):
 
             # Parse graph data
             else:
+
+                # Skip validation if header is invalid
+                if invalid_header:
+                    continue
+
                 vertex_id_1 = int(line_content[0])
                 vertex_id_2 = int(line_content[1])
                 weight = int(line_content[2])
 
                 # Validate data
-                line_errors = validate_data(vertex_id_1, vertex_id_2, weight)
+                line_errors = validate_data(vertex_id_1, vertex_id_2, weight,
+                                            graphs_data[graph_index]['properties']['number_of_vertices'])
 
                 if not line_errors:
                     # Record data
                     graphs_data[graph_index]['edges'].append([vertex_id_1, vertex_id_2, weight])
                 else:
-                    graphs_data[graph_index]['errors'].append('ERROR! Line {0} invalid: {1}'.format(line_index, line_errors))
+                    graphs_data[graph_index]['errors'].append('Line {0} invalid: {1}'.format(line_index+1, line_errors))
 
-                # # Reset empty graph
-                # empty_graph = None
+    # Validate if graph id connected
+    validate_connected(graphs_data)
 
     return graphs_data
 
@@ -362,7 +392,7 @@ def process_graph(graph_data):
 def run_processing():
 
     # input_file_version = raw_input('Enter the source file VERSION (1,2,3, etc.): ')
-    input_file_version = '2'
+    input_file_version = '4'
     in_file_name = 'MST{}.dat'.format(input_file_version)
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)

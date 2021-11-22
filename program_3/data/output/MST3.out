@@ -1,7 +1,12 @@
 Program processing MST3.dat...
 
 Graph 1 input data is invalid!
-ERROR! Line 3 invalid: Vertex 1 value is negative integer
-ERROR! Line 8 invalid: Vertex 2 value is negative integer
+Line 4 invalid: Vertex 1 value is negative integer
+Line 7 invalid: Vertex 1 value is grater then number of vertexes
+Line 9 invalid: Vertex 2 value is negative integer
+Line 10 invalid: Vertex value has wrong weight
+Line 13 invalid: Vertex value has wrong weight
+Line 15 invalid: Vertex 2 value is grater then number of vertexes
+Line 17 invalid: Vertex 1 value is grater then number of vertexes
 
 Program complete!
