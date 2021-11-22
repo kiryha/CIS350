@@ -1,0 +1,7 @@
+Program processing MST3.dat...
+
+Graph 1 input data is invalid!
+ERROR! Line 3 invalid: Vertex 1 value is negative integer
+ERROR! Line 8 invalid: Vertex 2 value is negative integer
+
+Program complete!

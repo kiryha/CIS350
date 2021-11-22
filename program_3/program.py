@@ -139,8 +139,8 @@ class Graph:
     """
     def __init__(self, number_of_vertices):
         self.number_of_vertices = number_of_vertices
-        self.src_edges = [None] * self.number_of_vertices
-        self.mst_edges = [None] * self.number_of_vertices
+        self.adjacency_list = [None] * self.number_of_vertices
+        self.mst_graph = [None] * self.number_of_vertices
 
     def add_edge(self, vertex_id_1, vertex_id_2, weight):
         """
@@ -153,13 +153,13 @@ class Graph:
 
         # Add vertex ID 1
         vertex = Vertex(vertex_id_1, weight)
-        vertex.next = self.src_edges[vertex_id_2]
-        self.src_edges[vertex_id_2] = vertex
+        vertex.next = self.adjacency_list[vertex_id_2]
+        self.adjacency_list[vertex_id_2] = vertex
 
         # Add vertex ID 2
         vertex = Vertex(vertex_id_2, weight)
-        vertex.next = self.src_edges[vertex_id_1]
-        self.src_edges[vertex_id_1] = vertex
+        vertex.next = self.adjacency_list[vertex_id_1]
+        self.adjacency_list[vertex_id_1] = vertex
 
     def build_adjacency_string(self):
 
@@ -167,7 +167,7 @@ class Graph:
 
         for i in range(self.number_of_vertices):
             graph_string += 'Vertex [{}]: '.format(i)
-            vertex = self.src_edges[i]
+            vertex = self.adjacency_list[i]
             while vertex:
                 graph_string += '({0}, {1}) '.format(vertex.vertex_id, vertex.weight)
                 vertex = vertex.next
@@ -181,7 +181,7 @@ class Graph:
         mst_string = ''
 
         for i in range(1, self.number_of_vertices):
-            vertex = self.mst_edges[i]
+            vertex = self.mst_graph[i]
             mst_string += 'Edge: {}-{} weight: {}\n'.format(i, vertex.vertex_id, vertex.weight)
             cost += vertex.weight
 
@@ -195,7 +195,7 @@ class Graph:
 
         for i in range(self.number_of_vertices):
             graph_dictionary[i] = {}
-            vertex = self.src_edges[i]
+            vertex = self.adjacency_list[i]
             while vertex:
                 graph_dictionary[i][vertex.vertex_id] = vertex.weight
                 vertex = vertex.next
@@ -220,10 +220,10 @@ class Graph:
             min_heap.array.append(min_heap.new_min_heap_node(vertex_id, weights[vertex_id]))
             min_heap.pos.append(vertex_id)
 
-        # # Extract 0 vertex
-        # min_heap.pos[0] = 0
-        # weights[0] = 0
-        # min_heap.decrease_key(0, weights[0])
+        # Initialize 0 vertex
+        min_heap.pos[0] = 0
+        weights[0] = 0
+        min_heap.decrease_key(0, weights[0])
 
         # Process MST
         while not min_heap.is_empty():
@@ -233,7 +233,7 @@ class Graph:
             min_value = heap_node[0]
 
             # Update weights on adjacent vertices
-            vertex = self.src_edges[min_value]
+            vertex = self.adjacency_list[min_value]
             while vertex:
                 if min_heap.vertex_in_heap(vertex.vertex_id) and vertex.weight < weights[vertex.vertex_id]:
 
@@ -243,10 +243,27 @@ class Graph:
                     min_heap.decrease_key(vertex.vertex_id, weights[vertex.vertex_id])
 
                     # Construct MST graph
-                    self.mst_edges[vertex.vertex_id] = Vertex(min_value, vertex.weight)
+                    self.mst_graph[vertex.vertex_id] = Vertex(min_value, vertex.weight)
 
                 vertex = vertex.next
 
+
+def validate_data(vertex_id_1, vertex_id_2, weight):
+
+    line_errors = ''
+
+    # Check if number is positive
+    if vertex_id_1 < 0:
+        line_errors += 'Vertex 1 value is negative integer'
+
+    if vertex_id_2 < 0:
+        line_errors += 'Vertex 2 value is negative integer'
+
+    if line_errors != '':
+        return line_errors
+
+    else:
+        return None
 
 def read_data(file_path):
     """
@@ -259,31 +276,38 @@ def read_data(file_path):
     :return: graph dictionary
     """
 
-    # Skip if file not exists
-    if not os.path.exists(file_path):
-        print '>> ERROR! File not exists!'
-        return
-
+    # Store graph data
+    graph_index = 1
+    # empty_graph = None
     graphs_data = {}
-    index = 1  # Keys for graph dictionary
 
     with open(file_path, 'r') as data:
-        graph_data = data.readlines()
+        lines_data = data.readlines()
 
-        for line in graph_data:
+        for line_index, line in enumerate(lines_data):
             line = line.strip()
             line_content = line.split()
 
-            # Get graph beginning
+            # Get graph header
             if len(line_content) == 2:
 
-                if index in graphs_data.keys():
-                    index += 1
+                if graph_index in graphs_data.keys():
+                    graph_index += 1
 
                 # Init new graph
-                graphs_data[index] = {'properties': {'number_of_vertices': int(line_content[0]),
-                                                     'number_of_edges': int(line_content[1])},
-                                      'edges': []}
+                number_of_vertices = int(line_content[0])
+                number_of_edges = int(line_content[1])
+
+                graph_data = {'properties': {'number_of_vertices': number_of_vertices,
+                                             'number_of_edges': number_of_edges},
+                              'edges': [],
+                              'errors': []}
+
+                graphs_data[graph_index] = graph_data
+
+                # Validate header
+                if number_of_vertices < 0 or number_of_edges < 0:
+                    graphs_data[graph_index]['errors'].append('Header of graph is invalid: negative numbers.')
 
             # Skip empty line
             elif len(line_content) == 0:
@@ -291,7 +315,21 @@ def read_data(file_path):
 
             # Parse graph data
             else:
-                graphs_data[index]['edges'].append([int(line_content[0]), int(line_content[1]), int(line_content[2])])
+                vertex_id_1 = int(line_content[0])
+                vertex_id_2 = int(line_content[1])
+                weight = int(line_content[2])
+
+                # Validate data
+                line_errors = validate_data(vertex_id_1, vertex_id_2, weight)
+
+                if not line_errors:
+                    # Record data
+                    graphs_data[graph_index]['edges'].append([vertex_id_1, vertex_id_2, weight])
+                else:
+                    graphs_data[graph_index]['errors'].append('ERROR! Line {0} invalid: {1}'.format(line_index, line_errors))
+
+                # # Reset empty graph
+                # empty_graph = None
 
     return graphs_data
 
@@ -313,8 +351,8 @@ def process_graph(graph_data):
 
     # Build adjacency list for MST graph
     graph = Graph(number_of_vertices)
-    for i in range(1, len(al_graph.mst_edges)):
-        graph.add_edge(i, al_graph.mst_edges[i].vertex_id, al_graph.mst_edges[i].weight)
+    for i in range(1, len(al_graph.mst_graph)):
+        graph.add_edge(i, al_graph.mst_graph[i].vertex_id, al_graph.mst_graph[i].weight)
 
     al_mst_string = graph.build_adjacency_string()
 
@@ -324,40 +362,67 @@ def process_graph(graph_data):
 def run_processing():
 
     # input_file_version = raw_input('Enter the source file VERSION (1,2,3, etc.): ')
-    input_file_version = '1'
+    input_file_version = '2'
     in_file_name = 'MST{}.dat'.format(input_file_version)
     out_file_name = in_file_name.replace('.dat', '.out')
     in_file_path = '{0}/data/input/{1}'.format(program_root, in_file_name)
     out_file_path = '{0}/data/output/{1}'.format(program_root, out_file_name)
 
     if not os.path.exists(in_file_path):
-        print 'ERROR! The file {} does not exist! {lease, enter the correct name.'.format(in_file_path)
+        print 'ERROR! The file {} does not exist! Please, enter the correct name.'.format(in_file_path)
 
     graphs_report = ''
     graphs_data = read_data(in_file_path)
 
+    # Create folder for outputs
+    if not os.path.exists(os.path.dirname(out_file_path)):
+        os.makedirs(os.path.dirname(out_file_path))
+
     if not graphs_data:
+        print 'ERROR parsing source data!'
         return
 
     for graph_index, graph_data in graphs_data.iteritems():
-        al_string, mst_string, al_mst_string = process_graph(graph_data)
+        print graph_data
+        if not graph_data['errors'] and graph_data['edges']:
+            al_string, mst_string, al_mst_string = process_graph(graph_data)
 
-        # Print report
-        print al_string
-        print mst_string
-        print al_mst_string
+            # Prepare report data
+            report_title = 'Full graph {} adjacency list:\n'.format(graph_index)
+            report_graph_index = '\nMST graph {}\n'.format(graph_index)
+            report_graph_list = 'MST graph {} adjacency list:\n'.format(graph_index)
 
-        # Write report to a file
-        graphs_report += 'Full graph {} adjacency list:\n'.format(graph_index)
-        graphs_report += al_string
-        graphs_report += '\nMST graph {}\n'.format(graph_index)
-        graphs_report += mst_string
-        graphs_report += 'MST graph {} adjacency list:\n'.format(graph_index)
-        graphs_report += al_mst_string
-        graphs_report += '\n\n'
+            # Print report
+            print report_title
+            print al_string
+            print report_graph_index
+            print mst_string
+            print report_graph_list
+            print al_mst_string
 
-    if not os.path.exists(os.path.dirname(out_file_path)):
-        os.makedirs(os.path.dirname(out_file_path))
+            # Write report to a file
+            graphs_report += report_title
+            graphs_report += al_string
+            graphs_report += report_graph_index
+            graphs_report += mst_string
+            graphs_report += report_graph_list
+            graphs_report += al_mst_string
+            graphs_report += '\n\n'
+
+        else:
+            print 'Graph {} input data is invalid!\n'.format(graph_index)
+            graphs_report += 'Graph {} input data is invalid!\n'.format(graph_index)
+
+            for error in graph_data['errors']:
+                print '{}\n'.format(error)
+                graphs_report += '{}\n'.format(error)
+
+            # Catch empty graph
+            if not graph_data['edges']:
+                print 'Graph edges data is empty'
+                graphs_report += 'Graph edges data is empty\n'
+
+            graphs_report += '\n'
 
     with open(out_file_path, 'w') as data:
         data.write('Program processing {}...\n\n'.format(in_file_name))
