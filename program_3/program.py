@@ -249,6 +249,12 @@ class Graph:
 
 
 def validate_connected(graphs_data):
+    """
+    Check if number of edges more then number of vertices, otherwise consider graph unconnected
+    Record result to graph_data dictionary
+    :param graphs_data: graph points/weights
+    :return:
+    """
 
     for graph_index, graph_data in graphs_data.iteritems():
         if graph_data['edges']:
@@ -257,6 +263,15 @@ def validate_connected(graphs_data):
 
 
 def validate_data(vertex_id_1, vertex_id_2, weight, number_of_vertices):
+    """
+    Check if graph data is correct, so it is possible to build MST tree
+
+    :param vertex_id_1: vertex 1 value
+    :param vertex_id_2: vertex 2 value
+    :param weight: edge 1-2 weight
+    :param number_of_vertices: total number of vertices in graph
+    :return: None if graph is valid, string errors list if not
+    """
 
     line_errors = ''
 
@@ -365,6 +380,11 @@ def read_data(file_path):
 
 
 def process_graph(graph_data):
+    """
+    Create adjacency list of source graph, build MST tree, create adjacency list of MST graph
+    :param graph_data: input data for building graph
+    :return: processing results strings
+    """
 
     # Build adjacency list for source graph
     number_of_vertices = graph_data['properties']['number_of_vertices']
@@ -375,7 +395,7 @@ def process_graph(graph_data):
         al_graph.add_edge(edge[0], edge[1], edge[2])
 
     # Create MST graph
-    al_string = al_graph.build_adjacency_string()
+    adjacency_list_src = al_graph.build_adjacency_string()
     al_graph.build_mst_graph()
     mst_string = al_graph.build_mst_string()
 
@@ -384,9 +404,9 @@ def process_graph(graph_data):
     for i in range(1, len(al_graph.mst_graph)):
         graph.add_edge(i, al_graph.mst_graph[i].vertex_id, al_graph.mst_graph[i].weight)
 
-    al_mst_string = graph.build_adjacency_string()
+    adjacency_list_mst = graph.build_adjacency_string()
 
-    return al_string, mst_string, al_mst_string
+    return adjacency_list_src, mst_string, adjacency_list_mst
 
 
 def run_processing():
@@ -416,7 +436,7 @@ def run_processing():
     for graph_index, graph_data in graphs_data.iteritems():
 
         if not graph_data['errors'] and graph_data['edges']:
-            al_string, mst_string, al_mst_string = process_graph(graph_data)
+            adjacency_list_src, mst_string, adjacency_list_mst = process_graph(graph_data)
 
             # Prepare report data
             report_title = 'Full graph {} adjacency list:\n'.format(graph_index)
@@ -425,19 +445,19 @@ def run_processing():
 
             # Print report
             print report_title
-            print al_string
+            print adjacency_list_src
             print report_graph_index
             print mst_string
             print report_graph_list
-            print al_mst_string
+            print adjacency_list_mst
 
             # Write report to a file
             graphs_report += report_title
-            graphs_report += al_string
+            graphs_report += adjacency_list_src
             graphs_report += report_graph_index
             graphs_report += mst_string
             graphs_report += report_graph_list
-            graphs_report += al_mst_string
+            graphs_report += adjacency_list_mst
             graphs_report += '\n\n'
 
         else:
